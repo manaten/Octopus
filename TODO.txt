@@ -1,0 +1,7 @@
+Fuction.callとFunction.applyの違いを調べる
+
+とりあえず保留するもの
+・RCC(リモートクロージャ)
+やらないもの
+・with,eval
+・外部関数にはRemoteObjectのディープクローンを渡す
