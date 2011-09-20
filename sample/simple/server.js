@@ -1,4 +1,4 @@
-var octopus = require('../../lib/octopus'),
+var octopus = require('../../node_modules/octopus'),
 sys = require('sys');
 
 var port = 8080, clientHtml = __dirname + "/index.html", clientCode = __dirname + "/client.js";
