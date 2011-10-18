@@ -1,4 +1,4 @@
-var octopus = require('../../node_modules/octopus'),
+var octopus = require('../../../node_modules/octopus'),
 sys = require('sys');
 
 
@@ -12,7 +12,8 @@ exports.sendMessage = function(user, mes) {
 };
 exports.updateClients = function() {
 	for (var i in octServer.clients) {
-		octServer.clients[i].log(chatLog);
+		//TODO available to return Array but String;
+		octServer.clients[i].invoke('log', [chatLog], null);
 	}
 };
 
