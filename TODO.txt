@@ -5,3 +5,5 @@ Fuction.callとFunction.applyの違いを調べる
 やらないもの
 ・with,eval
 ・外部関数にはRemoteObjectのディープクローンを渡す
+
+Propertygetのカッコが絡むパターン

@@ -4,10 +4,13 @@ function log(str)
 	log.innerHTML = str;
 }
 function onSend() {
-	var user = document.getElementById("userName").value;
-	var mes = document.getElementById("message").value;
-	Octopus.getServer().sendMessage(user, mes);
-	document.getElementById("message").value = "";
+	var userDOM = document.getElementById("userName");
+	var user = userDOM.value;
+	var mesDOM = document.getElementById("message");
+	var mes = mesDOM.value;
+	var server = Octopus.getServer();
+	server.sendMessage(user, mes);
+	mesDOM.value = "";
 }
 window.addEventListener("load", function() {
 	document.getElementById("chatButton").addEventListener("click", onSend);
