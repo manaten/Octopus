@@ -11,6 +11,7 @@ import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
 import org.mozilla.javascript.ast.AstRoot;
 
+import net.manaten.octopus.DefaultTranslation;
 import net.manaten.octopus.NormalizeTranslation;
 
 public class NormalizeTranslationTest
@@ -22,16 +23,18 @@ public class NormalizeTranslationTest
 		CompilerEnvirons compilerEnv = new CompilerEnvirons();
 		compilerEnv.setOptimizationLevel(-1);
 		compilerEnv.setGeneratingSource(true);
+		compilerEnv.setRecordingComments(true);
 		Parser parser = new Parser(compilerEnv, compilerEnv.getErrorReporter());
 		AstRoot root = parser.parse(new BufferedReader(new FileReader(src)), src.getName(), 1);
 
 		NormalizeTranslation translation = new NormalizeTranslation(root);
-		AstNode transRoot = translation.translateToNode(root);
+		AstNode transRoot = translation.translateToNode();
+
 
 		System.out.println("-----------Original Root------------");
-		System.out.println(root.toSource());
+		System.out.println(DefaultTranslation.withLn(root.toSource()));
 		System.out.println("------------Translated Root-----------");
-		System.out.println(transRoot.toSource());
+		System.out.println(DefaultTranslation.withLn(transRoot.toSource()));
 		System.out.println("-----------------------");
 	}
 }

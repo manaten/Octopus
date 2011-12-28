@@ -20,7 +20,22 @@ import org.mozilla.javascript.ast.*;
  */
 public class DefaultTranslation
 {
-	private final AstRoot root;
+	protected final AstRoot root;
+
+	public static String withLn(String str)
+	{
+		int width = (str.length()+"").length();
+		StringBuilder sb = new StringBuilder(str.length());
+		int i = 0;
+		for (String line : str.split("\n"))
+		{
+			i++;
+			for (int j = 0, time = width - (i+"").length(); j < time; j++)
+				sb.append(" ");
+			sb.append(i + " : " + line + "\n");
+		}
+		return sb.toString();
+	}
 
 	public DefaultTranslation(AstRoot root)
 	{
@@ -28,10 +43,10 @@ public class DefaultTranslation
 		usedVariableName = getNameSet(this.root);
 	}
 
-/**
- * Create free valuable name still used in.
- * @return
- */
+	/**
+	 * Create free variable name still used in.
+	 * @return
+	 */
 	private static final String FREE_VAL_PREFIX = "o_t";
 	private final Set<String> usedVariableName;
 	private int freeValNum = 0;
@@ -48,9 +63,9 @@ public class DefaultTranslation
 		}
 	}
 
-/**
- * node以下で使用されてる変数名のセットを取得
- */
+	/**
+	 * node以下で使用されてる変数名のセットを取得
+	 */
 	public final static Set<String> getNameSet(AstNode node)
 	{
 		final Set<String> result = new HashSet<String>();
@@ -83,29 +98,38 @@ public class DefaultTranslation
 		return sb.toString();
 	}
 
-	public AstNode translateToNode(AstNode node)
+	public AstRoot translateToNode()
 	{
 		CompilerEnvirons compilerEnv = new CompilerEnvirons();
+		compilerEnv.setRecordingComments(true);
 		compilerEnv.setOptimizationLevel(-1);
 		compilerEnv.setGeneratingSource(true);
 		Parser parser = new Parser(compilerEnv, compilerEnv.getErrorReporter());
-		return parser.parse(translate(node), "dummy.js", 1);
+		String translated = translate();
+		try
+		{
+			return parser.parse(translated, "dummy.js", 1);
+		}
+		catch (Exception e)
+		{
+			throw new RuntimeException(e.getMessage() + "\n" + withLn(translated));
+		}
 	}
 
 	//*
-	public String translate(AstNode node)
+	public String translate()
 	{
-		return translate(node, new TranslationInfomation());
+		return translate(root, new TranslationInfomation());
 	}
 	//*/
 
-	public String translate(AstNode node, TranslationInfomation info)
+	protected String translate(AstNode node, TranslationInfomation info)
 	{
 		//System.out.println(node.getClass().toString());
 		if (node instanceof ArrayLiteral) return translate((ArrayLiteral) node, info);
 		if (node instanceof Block) return translate((Block) node, info);
 		if (node instanceof CatchClause) return translate((CatchClause) node, info);
-		//if (node instanceof Comment) return translate((Comment) node, info);
+		if (node instanceof Comment) return translate((Comment) node, info);
 		if (node instanceof ConditionalExpression) return translate((ConditionalExpression) node, info);
 		if (node instanceof ElementGet) return translate((ElementGet) node, info);
 		if (node instanceof EmptyExpression) return translate((EmptyExpression) node, info);
@@ -243,13 +267,14 @@ public class DefaultTranslation
 		return sb.toString();
 	}
 
-	/*
-	protected AstNode translate(Comment node, TranslationInfomation info)
+
+	protected String translate(Comment node, TranslationInfomation info)
 	{
-		Comment result = new Comment(node.getPosition(), node.getLength(), node.getCommentType(), node.getValue());
-		return result;
+		System.out.println("coment");
+		StringBuilder sb = new StringBuilder(node.getLength() + 10);
+		sb.append(node.getValue());
+		return sb.toString();
 	}
-	//*/
 
 	protected String translate(ConditionalExpression node, TranslationInfomation info)
 	{

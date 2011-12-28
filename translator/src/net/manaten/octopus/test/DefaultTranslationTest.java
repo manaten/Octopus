@@ -28,7 +28,7 @@ public class DefaultTranslationTest
 		AstRoot root = parser.parse(new BufferedReader(new FileReader(src)), src.getName(), 1);
 
 		DefaultTranslation translation = new DefaultTranslation(root){};
-		AstNode transRoot = translation.translateToNode(root);
+		AstNode transRoot = translation.translateToNode();
 
 		System.out.println("-----------Original Root------------");
 		System.out.println(root.toSource());

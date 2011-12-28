@@ -5,15 +5,15 @@ var hoge = (r+r).prop;
 r['prop'] = "huuuu";
 var hoge = r['pr'+'op'];
 
-hige = r['hag'];
+hige = r['hag'][heg()];
 
 func(funcc());
 var huuu = hunc(hunccc());
 
 auto.awake.ape = (big.beyond.bridge = cute.cake)[dead.dog](exhautive.eagle, fool.fish + good.god);
 
-var a = 9, b = ooo.oooooo, c = "test";
-for (i = 0; i < 100; i++) {
+var a = 9, b = ooo.oooooo, c = hoge();
+for (var i = 0, j = 900; i < 100; i++) {
 	System.console.log(i);
 	g[i] = i;
 }
@@ -25,8 +25,21 @@ for (key in o)
 		console.log(o[key]);
 	}
 
+if (o.prop == "hage")
+	console.log(o[key]);
+else if (o.prop == "huga")
+	console.log(o[key]);
+else
+	console.log(o[key]);
+
 while (d > 0)
 	--d;
+
+do
+{
+	hoge();
+	hoho();
+}while(huga.poyo());
 
 var f = function(a, b)
 {
@@ -58,4 +71,4 @@ f(a.x, b);
 	var x = a + b;
 	return x + 5;
 })();
-
+// test
