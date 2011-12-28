@@ -19,7 +19,7 @@ public class NormalizeTranslation extends DefaultTranslation
 	public String translate()
 	{
 		NTLevel1 NTLevel1 = new NTLevel1(root);
-//		return NTLevel1.translate();
+		//		return NTLevel1.translate();
 		NTLevel2 NTLevel2 = new NTLevel2(NTLevel1.translateToNode());
 		return NTLevel2.translate();
 	}
@@ -35,19 +35,20 @@ public class NormalizeTranslation extends DefaultTranslation
 			super(root);
 		}
 
+
+		//		protected String translate(Block node, TranslationInfomation info)
+		//		{
+		//			StringBuilder sb = new StringBuilder();
+		//			List<AstNode> kids = new LinkedList<AstNode>();
+		//			for (Node kid : node)
+		//				kids.add( (AstNode) kid );
+		//			sb.append( translateStatements(kids, info));
+		//			return sb.toString();
+		//		}
+
 		/**
 		 * { ... } -> ...
 		 */
-//		protected String translate(Block node, TranslationInfomation info)
-//		{
-//			StringBuilder sb = new StringBuilder();
-//			List<AstNode> kids = new LinkedList<AstNode>();
-//			for (Node kid : node)
-//				kids.add( (AstNode) kid );
-//			sb.append( translateStatements(kids, info));
-//			return sb.toString();
-//		}
-
 		protected String translate(Scope node, TranslationInfomation info)
 		{
 			StringBuilder sb = new StringBuilder();
@@ -70,18 +71,18 @@ public class NormalizeTranslation extends DefaultTranslation
 		protected String translate(NewExpression node, TranslationInfomation info)
 		{
 			throw new TranslationException(node);
-//			StringBuilder sb = new StringBuilder();
-//			sb.append("new ");
-//			sb.append( translate(node.getTarget(), info) );
-//			sb.append("(");
-//			sb.append( translateList(node.getArguments(), info) );
-//			sb.append(")");
-//			if(node.getInitializer() != null)
-//			{
-//				sb.append(" ");
-//				sb.append( translate(node.getInitializer(), info) );
-//			}
-//			return sb.toString();
+			//			StringBuilder sb = new StringBuilder();
+			//			sb.append("new ");
+			//			sb.append( translate(node.getTarget(), info) );
+			//			sb.append("(");
+			//			sb.append( translateList(node.getArguments(), info) );
+			//			sb.append(")");
+			//			if(node.getInitializer() != null)
+			//			{
+			//				sb.append(" ");
+			//				sb.append( translate(node.getInitializer(), info) );
+			//			}
+			//			return sb.toString();
 		}
 
 		/**
@@ -136,9 +137,13 @@ public class NormalizeTranslation extends DefaultTranslation
 			StringBuilder sb = new StringBuilder();
 			sb.append("while(true) {");
 			sb.append( translate(node.getBody(), info) );
-			sb.append(" if (!(");
-			sb.append( translate(node.getCondition(), info) );
-			sb.append(")) { break; } }");
+			if (node.getCondition().getType() != Token.TRUE)
+			{
+				sb.append(" if (!(");
+				sb.append( translate(node.getCondition(), info) );
+				sb.append(")) { break; }");
+			}
+			sb.append("}");
 			return sb.toString();
 		}
 
@@ -174,9 +179,12 @@ public class NormalizeTranslation extends DefaultTranslation
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.append("while(true) {");
-			sb.append(" if (!(");
-			sb.append( translate(node.getCondition(), info) );
-			sb.append(")) { break; } ");
+			if (node.getCondition().getType() != Token.TRUE)
+			{
+				sb.append(" if (!(");
+				sb.append( translate(node.getCondition(), info) );
+				sb.append(")) { break; } ");
+			}
 			sb.append( translate(node.getBody(), info) );
 			sb.append("}");
 			return sb.toString();
@@ -268,11 +276,10 @@ public class NormalizeTranslation extends DefaultTranslation
 			{
 				StringBuilder sb = new StringBuilder();
 				String v = createFreeName();
-				sb.append("var "+v+" = (");
+				sb.append("var "+v+" = " + translate(node.getRight(), info) + ";");
 				ElementGet eg = (ElementGet) node.getLeft();
 				sb.append( translate(eg.getTarget(), info) );
-				sb.append('[' + translate(eg.getElement(), info) + "] = ");
-				sb.append( translate(node.getRight(), info) + ")");
+				sb.append('[' + translate(eg.getElement(), info) + "] = " + v);
 				info.addNodeQueue(sb.toString());
 				return v;
 			}

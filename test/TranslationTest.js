@@ -6,6 +6,7 @@ r['prop'] = "huuuu";
 var hoge = r['pr'+'op'];
 
 hige = r['hag'][heg()];
+var i = (hoge.huga = piyo)
 
 func(funcc());
 var huuu = hunc(hunccc());
