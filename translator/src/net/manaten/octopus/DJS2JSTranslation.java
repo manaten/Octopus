@@ -182,9 +182,10 @@ public class DJS2JSTranslation extends DefaultTranslation
 				sb.append( return_k );
 			else
 				sb.append(transArgs + ", " + return_k);
-			sb.append(") ");
+			sb.append(") {");
+			sb.append("if ("+return_k+" === undefined) {"+return_k+" = function(){};}");
 			sb.append( translate(fn.getBody(), info_) );
-			sb.append(";\n");
+			sb.append("};\n");
 			sb.append(funcName + ".isUserDefined = true;");
 
 			return sb.toString();
@@ -422,6 +423,15 @@ public class DJS2JSTranslation extends DefaultTranslation
 		 * { ... } -> ...
 		 */
 		protected String translate(Scope node, TranslationInfomation info)
+		{
+			StringBuilder sb = new StringBuilder();
+			List<AstNode> kids = new LinkedList<AstNode>();
+			for (Node kid : node)
+				kids.add( (AstNode) kid );
+			sb.append( translateStatements(kids, info));
+			return sb.toString();
+		}
+		protected String translate(Block node, TranslationInfomation info)
 		{
 			StringBuilder sb = new StringBuilder();
 			List<AstNode> kids = new LinkedList<AstNode>();

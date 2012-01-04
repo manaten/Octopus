@@ -35,17 +35,6 @@ public class NormalizeTranslation extends DefaultTranslation
 			super(root);
 		}
 
-
-		//		protected String translate(Block node, TranslationInfomation info)
-		//		{
-		//			StringBuilder sb = new StringBuilder();
-		//			List<AstNode> kids = new LinkedList<AstNode>();
-		//			for (Node kid : node)
-		//				kids.add( (AstNode) kid );
-		//			sb.append( translateStatements(kids, info));
-		//			return sb.toString();
-		//		}
-
 		/**
 		 * { ... } -> ...
 		 */
