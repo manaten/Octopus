@@ -43,4 +43,5 @@ public class TranslationInfomation {
 	public void setContinuation(List<AstNode> continuation) {
 		this.continuation = continuation;
 	}
+
 }

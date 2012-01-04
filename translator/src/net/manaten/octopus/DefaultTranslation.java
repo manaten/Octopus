@@ -22,6 +22,11 @@ public class DefaultTranslation
 {
 	protected final AstRoot root;
 
+	/**
+	 * 複数行に渡るStringを行番号付きに整形
+	 * @param str
+	 * @return
+	 */
 	public static String withLn(String str)
 	{
 		int width = (str.length()+"").length();
@@ -55,6 +60,19 @@ public class DefaultTranslation
 		while(true)
 		{
 			String result = FREE_VAL_PREFIX + freeValNum++;
+			if (!usedVariableName.contains(result))
+			{
+				usedVariableName.add(result);
+				return result;
+			}
+		}
+	}
+
+	protected final String createFreeName(String prefix)
+	{
+		while(true)
+		{
+			String result = prefix+ freeValNum++;
 			if (!usedVariableName.contains(result))
 			{
 				usedVariableName.add(result);
@@ -432,7 +450,15 @@ public class DefaultTranslation
 
 	protected String translate(ContinueStatement node, TranslationInfomation info)
 	{
-		throw new TranslationException("Unsupported node : ", node);
+		StringBuilder sb = new StringBuilder();
+        sb.append("continue");
+        if(node.getLabel() != null)
+        {
+            sb.append(" ");
+            sb.append( translate(node.getLabel(), info) );
+        }
+        sb.append(";\n");
+        return sb.toString();
 	}
 
 	protected String translate(Label node, TranslationInfomation info)

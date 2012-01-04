@@ -8,13 +8,15 @@ var hoge = r['pr'+'op'];
 hige = r['hag'][heg()];
 var i = (hoge.huga = piyo)
 
+hoge.metrhod();
+
 func(funcc());
 var huuu = hunc(hunccc());
 
 auto.awake.ape = (big.beyond.bridge = cute.cake)[dead.dog](exhautive.eagle, fool.fish + good.god);
 
 var a = 9, b = ooo.oooooo, c = hoge();
-for (var i = 0, j = 900; i < 100; i++) {
+for (var i = 0, j = 900; i < 100 && j == hoge.prop; i++) {
 	System.console.log(i);
 	g[i] = i;
 }
@@ -53,6 +55,10 @@ function g(a, b, c)
 	return a - b - c;
 }
 
+function h()
+{
+}
+
 f(a.x, b);
 
 
@@ -62,14 +68,12 @@ f(a.x, b);
 	( function(a, b)
 			{
 				var x = a + b;
-				return x + 5;
 				( function(a, b)
 						{
-							var x = a + b;
+							var x = a + b + 200;
 							return x + 5;
 						})();
 			})();
 	var x = a + b;
-	return x + 5;
 })();
 // test

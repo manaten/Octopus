@@ -122,12 +122,9 @@ public class NormalizeTranslation extends DefaultTranslation
 			sb.append( translate(node.getCondition(), info));
 			sb.append(") {");
 			sb.append( translate(node.getThenPart(), info) );
-
+			sb.append("} else {");
 			if(node.getElsePart() != null)
-			{
-				sb.append("} else {");
 				sb.append( translate(node.getElsePart(), info) );
-			}
 			sb.append("}\n");
 			return sb.toString();
 		}
@@ -141,7 +138,7 @@ public class NormalizeTranslation extends DefaultTranslation
 			{
 				sb.append(" if (!(");
 				sb.append( translate(node.getCondition(), info) );
-				sb.append(")) { break; }");
+				sb.append(")) { break; } else {}");
 			}
 			sb.append("}");
 			return sb.toString();
@@ -167,7 +164,7 @@ public class NormalizeTranslation extends DefaultTranslation
 			sb.append("; while (true) {");
 			sb.append(" if (!(");
 			sb.append( translate(node.getCondition(), info) );
-			sb.append(")) { break; } ");
+			sb.append(")) { break; } else {}");
 			sb.append( translate(node.getBody(), info) );
 			sb.append( translate(node.getIncrement(), info) );
 			sb.append("; ");
@@ -183,7 +180,7 @@ public class NormalizeTranslation extends DefaultTranslation
 			{
 				sb.append(" if (!(");
 				sb.append( translate(node.getCondition(), info) );
-				sb.append(")) { break; } ");
+				sb.append(")) { break; } else {}");
 			}
 			sb.append( translate(node.getBody(), info) );
 			sb.append("}");
@@ -193,7 +190,7 @@ public class NormalizeTranslation extends DefaultTranslation
 
 
 	/**
-	 * プロパティアクセスの繰り出し
+	 * プロパティアクセスの繰り出しと、ブロック最後にreturn or continue
 	 * @author mana
 	 */
 	private class NTLevel2 extends DefaultTranslation
@@ -241,7 +238,7 @@ public class NormalizeTranslation extends DefaultTranslation
 
 
 		/**
-		 *
+		 * var x = y;のyがEGまたはFCの場合は繰り出さない
 		 */
 		protected String translate(VariableInitializer node, TranslationInfomation info)
 		{
@@ -270,6 +267,9 @@ public class NormalizeTranslation extends DefaultTranslation
 			return sb.toString();
 		}
 
+		/**
+		 * rec[prop] = exp -> var v = exp; rec[prop] = v; v
+		 */
 		protected String translate(Assignment node, TranslationInfomation info)
 		{
 			if (node.getLeft() instanceof ElementGet)
@@ -302,7 +302,7 @@ public class NormalizeTranslation extends DefaultTranslation
 
 
 		/**
-		 * F[a,...] -> var v = trans(F)(trans(a...)); v
+		 * F(a,...) -> var v = trans(F)(trans(a...)); v
 		 */
 		protected String translate(FunctionCall node, TranslationInfomation info)
 		{
@@ -315,6 +315,99 @@ public class NormalizeTranslation extends DefaultTranslation
 			sb.append(")");
 			info.addNodeQueue(sb.toString());
 			return v;
+		}
+
+		/**
+		 * function f(...) {...} -> var f = function(...) { ... }
+		 */
+		protected String translate(FunctionNode node, TranslationInfomation info)
+		{
+
+			if (node.getParent() instanceof AstRoot || node.getParent() instanceof Block || node.getParent() instanceof Scope)
+			{
+				StringBuilder sb = new StringBuilder();
+				sb.append("var ");
+				sb.append( translate(node.getFunctionName(), info) );
+				sb.append(" = ");
+				sb.append("function");
+				sb.append("(");
+				sb.append( translateList(node.getParams(), info) );
+				sb.append(") ");
+				sb.append( translateFuncBody(node.getBody(), info) );
+				sb.append(";\n");
+				return sb.toString();
+			}
+			else
+			{
+				StringBuilder sb = new StringBuilder();
+				String n = (node.getFunctionName() != null) ? node.getFunctionName().getIdentifier() : createFreeName();
+				sb.append("var ");
+				sb.append( n );
+				sb.append(" = ");
+				sb.append("function");
+				sb.append("(");
+				sb.append( translateList(node.getParams(), info) );
+				sb.append(") ");
+				sb.append( translateFuncBody(node.getBody(), info) );
+				sb.append(";\n");
+				info.addNodeQueue(sb.toString());
+				return n;
+			}
+		}
+
+		// 最後にかならずreturnするようにする
+		private String translateFuncBody(AstNode body, TranslationInfomation info)
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append("{\n");
+
+			List<AstNode> kids = new LinkedList<AstNode>();
+			for (Node kid : body)
+				kids.add( (AstNode) kid );
+
+			for (AstNode kid : kids)
+				sb.append( translateStatement(kid, info));
+
+			if (kids.isEmpty() || !(kids.get(kids.size()-1) instanceof ReturnStatement))
+				sb.append("return;");
+
+			sb.append("}\n");
+			return sb.toString();
+		}
+
+		protected String translate(WhileLoop node, TranslationInfomation info)
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append("while(true) {");
+			List<AstNode> kids = new LinkedList<AstNode>();
+			for (Node kid : node.getBody())
+				kids.add( (AstNode) kid );
+			for (AstNode kid : kids)
+				sb.append( translateStatement(kid, info));
+			if ( kids.isEmpty() || !(kids.get(kids.size()-1) instanceof ContinueStatement) && !(kids.get(kids.size()-1) instanceof BreakStatement) )
+				sb.append("continue;");
+			sb.append("}");
+			return sb.toString();
+		}
+
+		protected String translate(ForInLoop node, TranslationInfomation info)
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append("for ");
+			sb.append("(");
+			sb.append( translate(node.getIterator(), info) );
+			sb.append(" in ");
+			sb.append( translate(node.getIteratedObject(), info) );
+			sb.append(") {");
+			List<AstNode> kids = new LinkedList<AstNode>();
+			for (Node kid : node.getBody())
+				kids.add( (AstNode) kid );
+			for (AstNode kid : kids)
+				sb.append( translateStatement(kid, info));
+			if ( kids.isEmpty() || !(kids.get(kids.size()-1) instanceof ContinueStatement) && !(kids.get(kids.size()-1) instanceof BreakStatement) )
+				sb.append("continue;");
+			sb.append("}");
+			return sb.toString();
 		}
 	}
 
