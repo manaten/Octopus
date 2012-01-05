@@ -196,12 +196,12 @@ public class DJS2JSTranslation extends DefaultTranslation
 			StringBuilder sb = new StringBuilder();
 			ExpressionStatement es = (ExpressionStatement) node;
 			FunctionCall fc = (FunctionCall) es.getExpression();
+			ElementGet eg = (ElementGet) fc.getTarget();
 
-			sb.append( translate(fc.getTarget(), info) );
-			sb.append(".call_cps(");
-			sb.append("null, [");
+			sb.append( translate(eg.getTarget(), info) );
+			sb.append(".apply_cps(");
 			sb.append( translateList(fc.getArguments(), info) );
-			sb.append("], function () {\n");
+			sb.append(", function () {\n");
 			sb.append( translateStatements(k, info) );
 			sb.append("});\n");
 
@@ -214,12 +214,12 @@ public class DJS2JSTranslation extends DefaultTranslation
 			VariableDeclaration vd = (VariableDeclaration) node;
 			VariableInitializer vi = vd.getVariables().get(0);
 			FunctionCall fc = (FunctionCall) vi.getInitializer();
+			ElementGet eg = (ElementGet) fc.getTarget();
 
-			sb.append( translate(fc.getTarget(), info) );
-			sb.append(".call_cps(");
-			sb.append("null, [");
+			sb.append( translate(eg.getTarget(), info) );
+			sb.append(".apply_cps(");
 			sb.append( translateList(fc.getArguments(), info) );
-			sb.append("], function (");
+			sb.append(", function (");
 			sb.append( translate(vi.getTarget(), info) );
 			sb.append(") {\n");
 			sb.append( translateStatements(k, info) );
@@ -320,7 +320,14 @@ public class DJS2JSTranslation extends DefaultTranslation
 			sb.append( translate(node.getIteratedObject(), info) );
 			sb.append(".each_cps");
 			sb.append("( function(");
-			sb.append( translate(node.getIterator(), info)  + ", ");
+			if (node.getIterator() instanceof VariableDeclaration)
+			{
+				VariableDeclaration vd = (VariableDeclaration) node.getIterator();
+				VariableInitializer vi = vd.getVariables().get(0);
+				sb.append( translate(vi.getTarget(), info)  + ", ");
+			}
+			else
+				sb.append( translate(node.getIterator(), info)  + ", ");
 			sb.append(break_k_n + ", " + continue_k_n);
 			sb.append(") {");
 			sb.append( translate(node.getBody(), info_) );

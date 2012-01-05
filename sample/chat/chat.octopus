@@ -1,0 +1,7 @@
+{
+"serverCode": ["./server.js"],
+"clientCode": ["./client.js"],
+"staticFile": ["./index.html"],
+"startHtml" : "./index.html",
+"port"      : 8080
+}

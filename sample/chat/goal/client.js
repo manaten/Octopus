@@ -3,7 +3,7 @@ function log(str, k)
 {
 	var d = document;
 	var e = d.get_cps(getElementById, function(r1) {
-		var log = e.call_cps(d, "log", function(r2) {
+		var log = e.apply_cps(d, "log", function(r2) {
 			log.innerHTML.set_cps(str, k);
 		});
 	});

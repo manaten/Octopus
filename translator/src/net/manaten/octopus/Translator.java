@@ -73,14 +73,20 @@ public class Translator
 		AstNode serverTlanslatedRoot = translate(serverRoot);
 		AstNode clientTlanslatedRoot = translate(clientRoot);
 
-		saveFile(serverDstPath, serverTlanslatedRoot.toSource());
+		StringBuilder serverSource = new StringBuilder();
+		serverSource.append("var octopus = require('../../../node_modules/octopus'),sys = require('sys');var exports = {};");
+		serverSource.append(serverTlanslatedRoot.toSource());
+		serverSource.append("var port = 8080, clientHtml = __dirname + '/index.html', clientCode = __dirname + '/client.js';var octServer = octopus.create(clientCode, clientHtml, port);octServer.setExports(exports);octServer.on('connection', function(client) {sys.log('client connetcted !!!!');});sys.log('Server running at http://127.0.0.1:' + port + '/');");
+
+		saveFile(serverDstPath, serverSource.toString());
 		saveFile(clientDstPath, clientTlanslatedRoot.toSource());
 	}
 
-	private AstNode translate(AstNode node)
+	private AstNode translate(AstRoot node)
 	{
-		//TODO
-		return null;
+		DJS2JSTranslation translation = new DJS2JSTranslation(node);
+		AstNode transRoot = translation.translateToNode();
+		return transRoot;
 	}
 
 	private void saveFile(File outPath, String content)

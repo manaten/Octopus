@@ -86,7 +86,8 @@ public class NormalizeTranslation extends DefaultTranslation
 				sb.append(Token.typeToName(node.getType()).toLowerCase());
 				sb.append(" ");
 				sb.append(translated);
-				sb.append(";\n");
+				if (!(node.getParent() instanceof ForInLoop))
+					sb.append(";\n");
 			}
 			return sb.toString();
 		}
@@ -219,9 +220,6 @@ public class NormalizeTranslation extends DefaultTranslation
 					return sb.toString();
 				}
 			}
-			// FC(); なら繰り出しをしない
-			if (node.getExpression() instanceof FunctionCall)
-				return super.translate( (FunctionCall) node.getExpression(), info) + ";";
 			return super.translate(node, info);
 		}
 
@@ -241,14 +239,6 @@ public class NormalizeTranslation extends DefaultTranslation
 					ElementGet eg = (ElementGet) node.getInitializer();
 					sb.append( translate(eg.getTarget(), info) );
 					sb.append('[' + translate(eg.getElement(), info) + "]");
-				}
-				else if (node.getInitializer() instanceof FunctionCall)
-				{
-					FunctionCall fc = (FunctionCall) node.getInitializer();
-					sb.append( translate(fc.getTarget(), info) );
-					sb.append("(");
-					sb.append( translateList(fc.getArguments(), info) );
-					sb.append(")");
 				}
 				else
 					sb.append( translate(node.getInitializer(), info));
@@ -295,14 +285,44 @@ public class NormalizeTranslation extends DefaultTranslation
 		 */
 		protected String translate(FunctionCall node, TranslationInfomation info)
 		{
-			String v = createFreeName();
 			StringBuilder sb = new StringBuilder();
-			sb.append("var "+v+" = ");
-			sb.append( translate(node.getTarget(), info) );
-			sb.append("(");
-			sb.append( translateList(node.getArguments(), info) );
-			sb.append(")");
-			info.addNodeQueue(sb.toString());
+			if (node.getTarget() instanceof ElementGet)
+			{
+				ElementGet eg = (ElementGet) node.getTarget();
+				if (eg.getElement() instanceof StringLiteral && ((StringLiteral)eg.getElement()).getValue().equals("apply"))
+				{
+					sb.append( translate(eg.getTarget(), info) );
+					sb.append("['apply'](");
+					sb.append( translateList(node.getArguments(), info) );
+					sb.append(")");
+				}
+				else
+				{
+					String reciever = translate(eg.getTarget(), info);
+					String method = createFreeName();
+					StringBuilder sb2 = new StringBuilder();
+					sb2.append("var "+method+" = ");
+					sb2.append( reciever );
+					sb2.append('[' + translate(eg.getElement(), info) + "];");
+					info.addNodeQueue(sb2.toString());
+
+					sb.append( method );
+					sb.append("['apply']("+reciever+", [");
+					sb.append( translateList(node.getArguments(), info) );
+					sb.append("])");
+				}
+			}
+			else
+			{
+				sb.append( translate(node.getTarget(), info) );
+				sb.append("['apply'](null, [");
+				sb.append( translateList(node.getArguments(), info) );
+				sb.append("])");
+			}
+			if (node.getParent() instanceof VariableInitializer || node.getParent() instanceof ExpressionStatement)
+				return sb.toString();
+			String v = createFreeName();
+			info.addNodeQueue("var "+v+" = " + sb.toString());
 			return v;
 		}
 
@@ -324,6 +344,16 @@ public class NormalizeTranslation extends DefaultTranslation
 				sb.append(") ");
 				sb.append( translateFuncBody(node.getBody(), info) );
 				sb.append(";\n");
+				return sb.toString();
+			}
+			else if (node.getParent() instanceof VariableInitializer)
+			{
+				StringBuilder sb = new StringBuilder();
+				sb.append("function");
+				sb.append("(");
+				sb.append( translateList(node.getParams(), info) );
+				sb.append(") ");
+				sb.append( translateFuncBody(node.getBody(), info) );
 				return sb.toString();
 			}
 			else

@@ -8,7 +8,7 @@ var hoge = r['pr'+'op'];
 hige = r['hag'][heg()];
 var i = (hoge.huga = piyo)
 
-hoge.metrhod();
+hoge.method();
 
 func(funcc());
 var huuu = hunc(hunccc());
@@ -22,7 +22,7 @@ for (var i = 0, j = 900; i < 100 && j == hoge.prop; i++) {
 }
 /* hoge */
 o = {"hage":document.write, "huge":"peke", "foo":"bar"};
-for (key in o)
+for (var key in o)
 	if (o == "hage")
 	{
 		console.log(o[key]);
