@@ -198,8 +198,9 @@ public class DJS2JSTranslation extends DefaultTranslation
 			FunctionCall fc = (FunctionCall) es.getExpression();
 			ElementGet eg = (ElementGet) fc.getTarget();
 
+			sb.append("Octopus.__inner__.apply_cps(");
 			sb.append( translate(eg.getTarget(), info) );
-			sb.append(".apply_cps(");
+			sb.append(", ");
 			sb.append( translateList(fc.getArguments(), info) );
 			sb.append(", function () {\n");
 			sb.append( translateStatements(k, info) );
@@ -216,8 +217,9 @@ public class DJS2JSTranslation extends DefaultTranslation
 			FunctionCall fc = (FunctionCall) vi.getInitializer();
 			ElementGet eg = (ElementGet) fc.getTarget();
 
+			sb.append("Octopus.__inner__.apply_cps(");
 			sb.append( translate(eg.getTarget(), info) );
-			sb.append(".apply_cps(");
+			sb.append(", ");
 			sb.append( translateList(fc.getArguments(), info) );
 			sb.append(", function (");
 			sb.append( translate(vi.getTarget(), info) );
@@ -235,8 +237,9 @@ public class DJS2JSTranslation extends DefaultTranslation
 			VariableInitializer vi = vd.getVariables().get(0);
 			ElementGet eg = (ElementGet) vi.getInitializer();
 
+			sb.append("Octopus.__inner__.get_cps(");
 			sb.append( translate(eg.getTarget(), info) );
-			sb.append(".get_cps(");
+			sb.append(", ");
 			sb.append( translate(eg.getElement(), info));
 			sb.append(", function(");
 			sb.append( translate(vi.getTarget(), info));
@@ -254,8 +257,9 @@ public class DJS2JSTranslation extends DefaultTranslation
 			Assignment ass = (Assignment) es.getExpression();
 			ElementGet eg = (ElementGet) ass.getLeft();
 
+			sb.append("Octopus.__inner__.set_cps(");
 			sb.append( translate(eg.getTarget(), info) );
-			sb.append( ".set_cps(" );
+			sb.append( ", " );
 			sb.append( translate(eg.getElement(), info));
 			sb.append(", ");
 			sb.append( translate(ass.getRight(), info) );
@@ -317,9 +321,10 @@ public class DJS2JSTranslation extends DefaultTranslation
 			info_.setBreakPoint(break_k_n);
 			info_.setContinuePoint(continue_k_n);
 
+			sb.append("Octopus.__inner__.each_cps(");
 			sb.append( translate(node.getIteratedObject(), info) );
-			sb.append(".each_cps");
-			sb.append("( function(");
+			sb.append(", ");
+			sb.append("function(");
 			if (node.getIterator() instanceof VariableDeclaration)
 			{
 				VariableDeclaration vd = (VariableDeclaration) node.getIterator();

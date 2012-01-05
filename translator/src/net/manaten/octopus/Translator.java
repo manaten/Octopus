@@ -74,9 +74,9 @@ public class Translator
 		AstNode clientTlanslatedRoot = translate(clientRoot);
 
 		StringBuilder serverSource = new StringBuilder();
-		serverSource.append("var octopus = require('../../../node_modules/octopus'),sys = require('sys');var exports = {};");
+		serverSource.append("var Octopus = require('../../../node_modules/octopus'),sys = require('sys');var exports = {};\n");
 		serverSource.append(serverTlanslatedRoot.toSource());
-		serverSource.append("var port = 8080, clientHtml = __dirname + '/index.html', clientCode = __dirname + '/client.js';var octServer = octopus.create(clientCode, clientHtml, port);octServer.setExports(exports);octServer.on('connection', function(client) {sys.log('client connetcted !!!!');});sys.log('Server running at http://127.0.0.1:' + port + '/');");
+		serverSource.append("var port = 8080, clientHtml = __dirname + '/index.html', clientCode = __dirname + '/client.js';var octServer = Octopus.create(clientCode, clientHtml, port);octServer.setExports(exports);octServer.on('connection', function(client) {sys.log('client connetcted !!!!');});sys.log('Server running at http://127.0.0.1:' + port + '/');");
 
 		saveFile(serverDstPath, serverSource.toString());
 		saveFile(clientDstPath, clientTlanslatedRoot.toSource());
