@@ -1,22 +1,22 @@
 package net.manaten.octopus;
 
-import java.io.File;
 import java.io.IOException;
 
 public class Main
 {
 	public static void main(String[] args) throws IOException
 	{
-		args = new String[]{"./sample/chat/server.js", "./sample/chat/client.js"};
-		if (args.length != 2)
+		//TODO remove
+		args = new String[]{ "sample/chat/chat.octopus" };
+
+		if (args.length != 1)
 		{
-			System.out.println("usage: octopus serverCode clientCode");
+			System.out.println("usage: some.octopus");
 			System.exit(0);
 		}
+		OctopusDescriptor desc = OctopusDescriptor.load(args[0]);
 
-		Translator translator = new Translator(new File(args[0]), new File(args[1]));
-		// TODO try-catch
-		translator.parse();
+		Translator translator = new Translator(desc);
 		translator.translate();
 	}
 }

@@ -1,4 +1,4 @@
-var Octopus = require('../../../node_modules/octopus'),sys = require('sys');var exports = {};
+var Octopus = require('octopus'),sys = require('sys');var exports = {};
 var chatLog = "";
 var o_t0 = function(user, mes, return_0) {
   if (return_0 === undefined || !(return_0.constructor === Function)) 
@@ -45,4 +45,4 @@ Octopus.__inner__.set_cps(exports, 'sendMessage', o_t0, function() {
   Octopus.__inner__.set_cps(exports, 'updateClients', o_t3, function() {
 });
 });
-var port = 8080, clientHtml = __dirname + '/index.html', clientCode = __dirname + '/client.js';var octServer = Octopus.create(clientCode, clientHtml, port);octServer.setExports(exports);octServer.on('connection', function(client) {sys.log('client connetcted !!!!');});sys.log('Server running at http://127.0.0.1:' + port + '/');
+var port = 8080, clientHtml = __dirname + '/' + 'index.html', clientCode = __dirname + '/client.js';var octServer = Octopus.create(clientCode, clientHtml, port);octServer.setExports(exports);octServer.on('connection', function(client) {sys.log('client connetcted !!!!');});sys.log('Server running at http://127.0.0.1:' + port + '/');

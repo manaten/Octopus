@@ -3,11 +3,12 @@ package net.manaten.octopus;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.nio.channels.FileChannel;
 
 import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.Parser;
@@ -15,71 +16,43 @@ import org.mozilla.javascript.ast.*;
 
 public class Translator
 {
-	private File serverSrcPath, clientSrcPath;
-	private File serverDstPath, clientDstPath;
-	private AstRoot serverRoot, clientRoot;
+	private final OctopusDescriptor desc;
 
-	public Translator(File serverSrc, File clientSrc)
+	public Translator(OctopusDescriptor desc)
 	{
-		this.serverSrcPath = serverSrc;
-		this.clientSrcPath = clientSrc;
+		this.desc = desc;
 
-		File dstDir = new File(serverSrc.getParentFile(), "trans");
-		if (!dstDir.exists())
-			dstDir.mkdir();
-		serverDstPath = new File(dstDir, "server.js");
-		clientDstPath = new File(dstDir, "client.js");
+		File outputDir = new File(desc.getOutputDir());
+		if (!outputDir.exists())
+			outputDir.mkdir();
 	}
 
-	public void parse() throws IOException
+	private AstRoot parse(String fileName) throws IOException
 	{
 		CompilerEnvirons compilerEnv = new CompilerEnvirons();
 		compilerEnv.setOptimizationLevel(-1);
 		compilerEnv.setGeneratingSource(true);
-		Parser parser;
-
-		parser = new Parser(compilerEnv, compilerEnv.getErrorReporter());
-		this.serverRoot = parser.parse(new BufferedReader(new FileReader(serverSrcPath)), serverSrcPath.getName(), 1);
-
-		parser = new Parser(compilerEnv, compilerEnv.getErrorReporter());
-		this.clientRoot = parser.parse(new BufferedReader(new FileReader(clientSrcPath)), clientSrcPath.getName(), 1);
+		Parser parser = new Parser(compilerEnv, compilerEnv.getErrorReporter());
+		return parser.parse(new BufferedReader(new FileReader(new File(desc.getBasePath(), fileName))), fileName, 1);
 	}
 
-	private Set<String> getSymbols(AstRoot root)
+	public void translate() throws IOException
 	{
-		final Set<String> symbols = new HashSet<String>();
-		root.visit(new NodeVisitor()
-		{
-			@Override
-			public boolean visit(AstNode node) {
-				if (node instanceof Name)
-				{
-					symbols.add(node.getString());
-				}
-				return true;
-			}
-		});
-		return symbols;
-	}
-
-	public void translate()
-	{
-		Set<String> serverSymbols = getSymbols(serverRoot);
-		Set<String> clientSymbols = getSymbols(clientRoot);
-		System.out.println(serverSymbols);
-		System.out.println(clientSymbols);
-
-
-		AstNode serverTlanslatedRoot = translate(serverRoot);
-		AstNode clientTlanslatedRoot = translate(clientRoot);
+		AstNode serverTlanslatedRoot = translate(parse(desc.getServerCode()));
+		AstNode clientTlanslatedRoot = translate(parse(desc.getClientCode()));
 
 		StringBuilder serverSource = new StringBuilder();
-		serverSource.append("var Octopus = require('../../../node_modules/octopus'),sys = require('sys');var exports = {};\n");
+		serverSource.append("var Octopus = require('octopus'),sys = require('sys');var exports = {};\n");
 		serverSource.append(serverTlanslatedRoot.toSource());
-		serverSource.append("var port = 8080, clientHtml = __dirname + '/index.html', clientCode = __dirname + '/client.js';var octServer = Octopus.create(clientCode, clientHtml, port);octServer.setExports(exports);octServer.on('connection', function(client) {sys.log('client connetcted !!!!');});sys.log('Server running at http://127.0.0.1:' + port + '/');");
+		serverSource.append("var port = ");
+		serverSource.append(desc.getPort());
+		serverSource.append(", clientHtml = __dirname + '/' + '");
+		serverSource.append(desc.getStartHtml());
+		serverSource.append("', clientCode = __dirname + '/client.js';var octServer = Octopus.create(clientCode, clientHtml, port);octServer.setExports(exports);octServer.on('connection', function(client) {sys.log('client connetcted !!!!');});sys.log('Server running at http://127.0.0.1:' + port + '/');");
 
-		saveFile(serverDstPath, serverSource.toString());
-		saveFile(clientDstPath, clientTlanslatedRoot.toSource());
+		saveFile(new File(desc.getOutputDir(), "server.js"), serverSource.toString());
+		saveFile(new File(desc.getOutputDir(), "client.js"), clientTlanslatedRoot.toSource());
+		copyStaticFiles();
 	}
 
 	private AstNode translate(AstRoot node)
@@ -100,6 +73,25 @@ public class Translator
 		catch (IOException e)
 		{
 			e.printStackTrace();
+		}
+	}
+
+	private void copyFile(File src, File dst) throws IOException
+	{
+		FileChannel sourceChannel = new FileInputStream(src).getChannel();
+		FileChannel destinationChannel = new FileOutputStream(dst).getChannel();
+		sourceChannel.transferTo(0, sourceChannel.size(), destinationChannel);
+		sourceChannel.close();
+		destinationChannel.close();
+	}
+
+	private void copyStaticFiles() throws IOException
+	{
+		for (String file : desc.getStaticFiles())
+		{
+			File src = new File(desc.getBasePath(), file);
+			File dst = new File(desc.getOutputDir(), file);
+			copyFile(src, dst);
 		}
 	}
 }
