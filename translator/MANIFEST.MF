@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: . external_lib/jsonic.jar external_lib/js.jar
+Main-Class: net.manaten.octopus.Main
+

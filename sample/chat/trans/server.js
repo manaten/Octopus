@@ -1,4 +1,4 @@
-var Octopus = require('octopus'),sys = require('sys');var exports = {};
+var Octopus = require('octopus'), exports = {};Octopus.__inner__.init(exports, {"basePath":"/Users/mkato6/Dropbox/workspace/Octopus/sample/chat","clientCode":"client.js","outputDir":"/Users/mkato6/Dropbox/workspace/Octopus/sample/chat/trans","port":8080,"serverCode":"server.js","startHtml":"index.html","staticFiles":["index.html"]});
 var chatLog = "";
 var o_t0 = function(user, mes, return_0) {
   if (return_0 === undefined || !(return_0.constructor === Function)) 
@@ -25,14 +25,13 @@ Octopus.__inner__.set_cps(exports, 'sendMessage', o_t0, function() {
     return_1 = function() {
 };
   }
-  Octopus.__inner__.get_cps(octServer, 'clients', function(o_t4) {
-  Octopus.__inner__.each_cps(o_t4, function(i, break_2, continue_3) {
-  Octopus.__inner__.get_cps(octServer, 'clients', function(o_t6) {
-  Octopus.__inner__.get_cps(o_t6, i, function(o_t5) {
-  Octopus.__inner__.get_cps(o_t5, 'log', function(o_t7) {
-  Octopus.__inner__.apply_cps(o_t7, o_t5, [chatLog], function() {
+  Octopus.__inner__.get_cps(Octopus, 'getClients', function(o_t4) {
+  Octopus.__inner__.apply_cps(o_t4, Octopus, [], function(clients) {
+  Octopus.__inner__.each_cps(clients, function(i, break_2, continue_3) {
+  Octopus.__inner__.get_cps(clients, i, function(o_t5) {
+  Octopus.__inner__.get_cps(o_t5, 'log', function(o_t6) {
+  Octopus.__inner__.apply_cps(o_t6, o_t5, [chatLog], function() {
   continue_3();
-});
 });
 });
 });
@@ -40,9 +39,28 @@ Octopus.__inner__.set_cps(exports, 'sendMessage', o_t0, function() {
   return_1();
 });
 });
+});
 };
   o_t3.isUserDefined = true;
   Octopus.__inner__.set_cps(exports, 'updateClients', o_t3, function() {
+  Octopus.__inner__.get_cps(Octopus, 'on', function(o_t7) {
+  var o_t8 = function(client, return_4) {
+  if (return_4 === undefined || !(return_4.constructor === Function)) 
+  {
+    return_4 = function() {
+};
+  }
+  Octopus.__inner__.get_cps(client, 'console', function(o_t9) {
+  Octopus.__inner__.get_cps(o_t9, 'log', function(o_t10) {
+  Octopus.__inner__.apply_cps(o_t10, o_t9, ["test"], function() {
+  return_4();
 });
 });
-var port = 8080, clientHtml = __dirname + '/' + 'index.html', clientCode = __dirname + '/client.js';var octServer = Octopus.create(clientCode, clientHtml, port);octServer.setExports(exports);octServer.on('connection', function(client) {sys.log('client connetcted !!!!');});sys.log('Server running at http://127.0.0.1:' + port + '/');
+});
+};
+  o_t8.isUserDefined = true;
+  Octopus.__inner__.apply_cps(o_t7, Octopus, ["connection", o_t8], function() {
+});
+});
+});
+});

@@ -1,0 +1,26 @@
+#!/usr/bin/ruby
+$octopus_file = ARGV[0]
+if $octopus_file == nil then
+  puts 'usage: octopus <same.octopus>'
+  exit
+end
+$octopus_base = File.expand_path(File.dirname($0))
+
+$java_command = "java -jar ";
+$java_command += $octopus_base + "/translator/translator.jar "
+$java_command += " " + $octopus_file
+
+puts "Translating code..."
+$result = system($java_command)
+if !$result then
+  exit
+end
+puts "done."
+
+$node_command = "node "
+$node_command += File.expand_path(File.dirname($octopus_file)) + "/trans/server.js"
+
+puts ""
+puts "Running node.js..."
+exec($node_command)
+puts "bye."

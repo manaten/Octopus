@@ -16,9 +16,9 @@ import org.mozilla.javascript.ast.*;
 
 public class Translator
 {
-	private final OctopusDescriptor desc;
+	private final OctopusDescription desc;
 
-	public Translator(OctopusDescriptor desc)
+	public Translator(OctopusDescription desc)
 	{
 		this.desc = desc;
 
@@ -42,13 +42,11 @@ public class Translator
 		AstNode clientTlanslatedRoot = translate(parse(desc.getClientCode()));
 
 		StringBuilder serverSource = new StringBuilder();
-		serverSource.append("var Octopus = require('octopus'),sys = require('sys');var exports = {};\n");
+		serverSource.append("var Octopus = require('octopus'), exports = {};");
+		serverSource.append("Octopus.__inner__.init(exports, ");
+		serverSource.append(desc.toJSON());
+		serverSource.append(");\n");
 		serverSource.append(serverTlanslatedRoot.toSource());
-		serverSource.append("var port = ");
-		serverSource.append(desc.getPort());
-		serverSource.append(", clientHtml = __dirname + '/' + '");
-		serverSource.append(desc.getStartHtml());
-		serverSource.append("', clientCode = __dirname + '/client.js';var octServer = Octopus.create(clientCode, clientHtml, port);octServer.setExports(exports);octServer.on('connection', function(client) {sys.log('client connetcted !!!!');});sys.log('Server running at http://127.0.0.1:' + port + '/');");
 
 		saveFile(new File(desc.getOutputDir(), "server.js"), serverSource.toString());
 		saveFile(new File(desc.getOutputDir(), "client.js"), clientTlanslatedRoot.toSource());
