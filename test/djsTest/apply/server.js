@@ -1,1 +1,0 @@
-var serverObj = { prop:"hoge" };

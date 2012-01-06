@@ -43,24 +43,5 @@ Octopus.__inner__.set_cps(exports, 'sendMessage', o_t0, function() {
 };
   o_t3.isUserDefined = true;
   Octopus.__inner__.set_cps(exports, 'updateClients', o_t3, function() {
-  Octopus.__inner__.get_cps(Octopus, 'on', function(o_t7) {
-  var o_t8 = function(client, return_4) {
-  if (return_4 === undefined || !(return_4.constructor === Function)) 
-  {
-    return_4 = function() {
-};
-  }
-  Octopus.__inner__.get_cps(client, 'console', function(o_t9) {
-  Octopus.__inner__.get_cps(o_t9, 'log', function(o_t10) {
-  Octopus.__inner__.apply_cps(o_t10, o_t9, ["test"], function() {
-  return_4();
-});
-});
-});
-};
-  o_t8.isUserDefined = true;
-  Octopus.__inner__.apply_cps(o_t7, Octopus, ["connection", o_t8], function() {
-});
-});
 });
 });
