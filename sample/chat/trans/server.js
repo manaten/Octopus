@@ -1,7 +1,7 @@
 var Octopus = require('../../../node_modules/octopus'),sys = require('sys');var exports = {};
 var chatLog = "";
 var o_t0 = function(user, mes, return_0) {
-  if (return_0 === undefined) 
+  if (return_0 === undefined || !(return_0.constructor === Function)) 
   {
     return_0 = function() {
 };
@@ -20,7 +20,7 @@ var o_t0 = function(user, mes, return_0) {
 o_t0.isUserDefined = true;
 Octopus.__inner__.set_cps(exports, 'sendMessage', o_t0, function() {
   var o_t3 = function(return_1) {
-  if (return_1 === undefined) 
+  if (return_1 === undefined || !(return_1.constructor === Function)) 
   {
     return_1 = function() {
 };

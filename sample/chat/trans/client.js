@@ -1,5 +1,5 @@
 var log = function(str, return_0) {
-  if (return_0 === undefined) 
+  if (return_0 === undefined || !(return_0.constructor === Function)) 
   {
     return_0 = function() {
 };
@@ -14,7 +14,7 @@ var log = function(str, return_0) {
 };
 log.isUserDefined = true;
 var onSend = function(return_1) {
-  if (return_1 === undefined) 
+  if (return_1 === undefined || !(return_1.constructor === Function)) 
   {
     return_1 = function() {
 };
@@ -50,7 +50,7 @@ var onSend = function(return_1) {
 onSend.isUserDefined = true;
 Octopus.__inner__.get_cps(window, 'addEventListener', function(o_t10) {
   var o_t11 = function(return_2) {
-  if (return_2 === undefined) 
+  if (return_2 === undefined || !(return_2.constructor === Function)) 
   {
     return_2 = function() {
 };
@@ -63,7 +63,7 @@ Octopus.__inner__.get_cps(window, 'addEventListener', function(o_t10) {
   Octopus.__inner__.apply_cps(o_t15, document, ["message"], function(o_t16) {
   Octopus.__inner__.get_cps(o_t16, 'addEventListener', function(o_t17) {
   var o_t18 = function(e, return_3) {
-  if (return_3 === undefined) 
+  if (return_3 === undefined || !(return_3.constructor === Function)) 
   {
     return_3 = function() {
 };

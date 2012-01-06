@@ -16,8 +16,16 @@ public class DJS2JSTranslation extends DefaultTranslation
 	public String translate()
 	{
 		NormalizeTranslation ntrans = new NormalizeTranslation(root);
-		NDJS2CPSJSTranslation nd2j = new NDJS2CPSJSTranslation(ntrans.translateToNode());
-		return nd2j.translate();
+		AstRoot nform = ntrans.translateToNode();
+		NDJS2CPSJSTranslation nd2j = new NDJS2CPSJSTranslation(nform);
+		String translated = nd2j.translate();
+		System.out.println("----------input----------");
+		System.out.println(withLn(root.toSource()));
+		System.out.println("----------n-form----------");
+		System.out.println(withLn(nform.toSource()));
+		System.out.println("----------CPS----------");
+		System.out.println(withLn(translated));
+		return translated;
 	}
 
 	/**
@@ -183,7 +191,7 @@ public class DJS2JSTranslation extends DefaultTranslation
 			else
 				sb.append(transArgs + ", " + return_k);
 			sb.append(") {");
-			sb.append("if ("+return_k+" === undefined) {"+return_k+" = function(){};}");
+			sb.append("if ("+return_k+" === undefined || !("+return_k+".constructor === Function)) {"+return_k+" = function(){};}");
 			sb.append( translate(fn.getBody(), info_) );
 			sb.append("};\n");
 			sb.append(funcName + ".isUserDefined = true;");
