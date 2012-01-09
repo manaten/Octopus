@@ -19,12 +19,12 @@ public class DJS2JSTranslation extends DefaultTranslation
 		AstRoot nform = ntrans.translateToNode();
 		NDJS2CPSJSTranslation nd2j = new NDJS2CPSJSTranslation(nform);
 		String translated = nd2j.translate();
-		System.out.println("----------input----------");
-		System.out.println(withLn(root.toSource()));
-		System.out.println("----------n-form----------");
-		System.out.println(withLn(nform.toSource()));
-		System.out.println("----------CPS----------");
-		System.out.println(withLn(translated));
+//		System.out.println("----------input----------");
+//		System.out.println(withLn(root.toSource()));
+//		System.out.println("----------n-form----------");
+//		System.out.println(withLn(nform.toSource()));
+//		System.out.println("----------CPS----------");
+//		System.out.println(withLn(translated));
 		return translated;
 	}
 
@@ -300,7 +300,7 @@ public class DJS2JSTranslation extends DefaultTranslation
 		}
 
 		//TODO
-		private String translateWhileLoop(WhileLoop node, List<AstNode> k, TranslationInfomation info)
+		private String translateForLoop(ForLoop node, List<AstNode> k, TranslationInfomation info)
 		{
 			StringBuilder sb = new StringBuilder();
 			String break_k_n = createFreeName(BREAK_PREFIX);
@@ -386,9 +386,9 @@ public class DJS2JSTranslation extends DefaultTranslation
 					return sb.toString();
 				}
 
-				else if (statement instanceof WhileLoop)
+				else if (statement instanceof ForLoop)
 				{
-					sb.append(translateWhileLoop((WhileLoop) statement, _statements, info));
+					sb.append(translateForLoop((ForLoop) statement, _statements, info));
 					return sb.toString();
 				}
 

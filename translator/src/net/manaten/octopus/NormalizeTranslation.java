@@ -122,7 +122,7 @@ public class NormalizeTranslation extends DefaultTranslation
 		protected String translate(DoLoop node, TranslationInfomation info)
 		{
 			StringBuilder sb = new StringBuilder();
-			sb.append("while(true) {");
+			sb.append("for(;;) {");
 			sb.append( translate(node.getBody(), info) );
 			if (node.getCondition().getType() != Token.TRUE)
 			{
@@ -151,21 +151,22 @@ public class NormalizeTranslation extends DefaultTranslation
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.append( translate(node.getInitializer(), info) );
-			sb.append("; while (true) {");
+			sb.append("for (;;");
+			sb.append( translate(node.getIncrement(), info) );
+			sb.append(") {");
 			sb.append(" if (!(");
 			sb.append( translate(node.getCondition(), info) );
 			sb.append(")) { break; } else {}");
 			sb.append( translate(node.getBody(), info) );
 			sb.append( translate(node.getIncrement(), info) );
-			sb.append("; ");
-			sb.append("}");
+			sb.append(";}");
 			return sb.toString();
 		}
 
 		protected String translate(WhileLoop node, TranslationInfomation info)
 		{
 			StringBuilder sb = new StringBuilder();
-			sb.append("while(true) {");
+			sb.append("for(;;) {");
 			if (node.getCondition().getType() != Token.TRUE)
 			{
 				sb.append(" if (!(");
@@ -394,10 +395,10 @@ public class NormalizeTranslation extends DefaultTranslation
 			return sb.toString();
 		}
 
-		protected String translate(WhileLoop node, TranslationInfomation info)
+		protected String translate(ForLoop node, TranslationInfomation info)
 		{
 			StringBuilder sb = new StringBuilder();
-			sb.append("while(true) {");
+			sb.append("for (;;) {");
 			List<AstNode> kids = new LinkedList<AstNode>();
 			for (Node kid : node.getBody())
 				kids.add( (AstNode) kid );
