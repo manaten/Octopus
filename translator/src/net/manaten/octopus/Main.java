@@ -1,5 +1,7 @@
 package net.manaten.octopus;
 
+import java.io.File;
+
 public class Main
 {
 	public static void main(String[] args)
@@ -12,7 +14,14 @@ public class Main
 
 		try
 		{
-			OctopusDescription desc = OctopusDescription.load(args[0]);
+			File descPath;
+			File input = new File(args[0]);
+			if (input.isDirectory())
+				descPath = new File(input, "octopus.json");
+			else
+				descPath = input;
+
+			OctopusDescription desc = OctopusDescription.load(descPath);
 			Translator translator = new Translator(desc);
 			translator.translate();
 		}

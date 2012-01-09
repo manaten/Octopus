@@ -3,12 +3,9 @@ package net.manaten.octopus;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
 
 import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.Parser;
@@ -50,7 +47,6 @@ public class Translator
 
 		saveFile(new File(desc.getOutputDir(), "server.js"), serverSource.toString());
 		saveFile(new File(desc.getOutputDir(), "client.js"), clientTlanslatedRoot.toSource());
-		copyStaticFiles();
 	}
 
 	private AstNode translate(AstRoot node)
@@ -71,25 +67,6 @@ public class Translator
 		catch (IOException e)
 		{
 			e.printStackTrace();
-		}
-	}
-
-	private void copyFile(File src, File dst) throws IOException
-	{
-		FileChannel sourceChannel = new FileInputStream(src).getChannel();
-		FileChannel destinationChannel = new FileOutputStream(dst).getChannel();
-		sourceChannel.transferTo(0, sourceChannel.size(), destinationChannel);
-		sourceChannel.close();
-		destinationChannel.close();
-	}
-
-	private void copyStaticFiles() throws IOException
-	{
-		for (String file : desc.getStaticFiles())
-		{
-			File src = new File(desc.getBasePath(), file);
-			File dst = new File(desc.getOutputDir(), file);
-			copyFile(src, dst);
 		}
 	}
 }

@@ -18,7 +18,13 @@ end
 puts "done."
 
 $node_command = "node "
-$node_command += File.expand_path(File.dirname($octopus_file)) + "/trans/server.js"
+
+if FileTest.file?($octopus_file) then
+  $node_command += File.expand_path(File.dirname($octopus_file)) + "/trans/server.js"
+else
+  $node_command += File.expand_path($octopus_file) + "/trans/server.js"
+end
+
 
 puts ""
 puts "Running node.js..."

@@ -60,13 +60,18 @@ public class OctopusDescription
 		this.staticFiles = staticFiles;
 	}
 
-	public static OctopusDescription load(String fileName) throws JSONException, IOException
+	public static OctopusDescription load(File file) throws JSONException, IOException
 	{
-		OctopusDescription od = JSON.decode(new FileReader(fileName), OctopusDescription.class);
-		String basePath = new File(fileName).getAbsoluteFile().getParent();
+		OctopusDescription od = JSON.decode(new FileReader(file), OctopusDescription.class);
+		String basePath = file.getAbsoluteFile().getParent();
 		od.setBasePath(basePath);
 		od.setOutputDir(new File(basePath, OUTPUT_DIR_NAME).toString());
 		return od;
+	}
+
+	public static OctopusDescription load(String fileName) throws JSONException, IOException
+	{
+		return load(new File(fileName));
 	}
 
 	public void setOutputDir(String outputDir) {
