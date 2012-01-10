@@ -27,30 +27,16 @@ Octopus.__inner__.set_cps(exports, 'sendMessage', o_t0, function() {
   }
   Octopus.__inner__.get_cps(Octopus, 'getClients', function(o_t4) {
   Octopus.__inner__.apply_cps(o_t4, Octopus, [], function(clients) {
-  Octopus.__inner__.get_cps(console, 'log', function(o_t5) {
-  Octopus.__inner__.apply_cps(o_t5, console, [Octopus], function() {
-  Octopus.__inner__.get_cps(console, 'log', function(o_t6) {
-  Octopus.__inner__.apply_cps(o_t6, console, [clients], function() {
   Octopus.__inner__.each_cps(clients, function(i, break_2, continue_3) {
-  Octopus.__inner__.get_cps(console, 'log', function(o_t7) {
-  Octopus.__inner__.get_cps(clients, i, function(o_t8) {
-  Octopus.__inner__.apply_cps(o_t7, console, [o_t8], function() {
-  Octopus.__inner__.get_cps(clients, i, function(o_t9) {
-  Octopus.__inner__.get_cps(o_t9, 'log', function(o_t10) {
-  Octopus.__inner__.apply_cps(o_t10, o_t9, ["bagu no gennin oshieroooo"], function() {
+  Octopus.__inner__.get_cps(clients, i, function(o_t5) {
+  Octopus.__inner__.get_cps(o_t5, 'log', function(o_t6) {
+  Octopus.__inner__.apply_cps(o_t6, o_t5, [chatLog], function() {
   continue_3();
-});
-});
-});
 });
 });
 });
 }, function() {
   return_1();
-});
-});
-});
-});
 });
 });
 });
