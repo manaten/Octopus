@@ -1,10 +1,13 @@
-var clientObject = { value:"I'm Client!!" };
+var clientObj = { value:"I'm Client!!" };
 function clientFunc(obj) {
 	return obj;
 }
-console.log(clientObject === clientFunc(clientObject) );
-console.log( clientObject === Octopus.getServer().serverFunc(clientObject) );
-console.log( Octopus.getServer().serverObj === Octopus.getServer().getServerObj() );
+var server = Octopus.getServer();
+console.log(clientObj === clientFunc(clientObj) );
+console.log( clientObj === server.serverFunc(clientObj) );
+console.log( server.serverObj === server.getServerObj() );
 
-console.log(clientObject);
-console.log(Octopus.getServer().serverFunc(clientObject).value);
+console.log(clientObj.value);
+console.log(server.serverFunc(clientObj).value);
+console.log(server.getServerObj());
+console.log(server.serverObj.value);
