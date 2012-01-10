@@ -17,17 +17,23 @@ if !$result then
 end
 puts "done."
 
-$node_command = "node "
-
+$trans_path = "";
 if FileTest.file?($octopus_file) then
-  $node_command += File.expand_path(File.dirname($octopus_file)) + "/trans/server.js"
+  $trans_path = File.expand_path(File.dirname($octopus_file)) + "/trans"
 else
-  $node_command += File.expand_path($octopus_file) + "/trans/server.js"
+  $trans_path = File.expand_path($octopus_file) + "/trans"
 end
-$command = 'export NODE_PATH='+$octopus_base+'/node_modules;' + $node_command
+
+$node_command = 'export NODE_PATH='
+$node_command += $octopus_base
+$node_command += '/node_modules;node '
+$node_command += $trans_path + "/server.js"
 
 puts ""
-puts "Running node.js..."
-system($command)
+puts "Running node.js...  (exit to cmd+C)"
+system($node_command)
 puts ""
+
+$rm_command = "rm -r " + $trans_path
+system($rm_command)
 puts "bye."
