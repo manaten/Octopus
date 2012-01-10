@@ -10,6 +10,7 @@ exports.updateClients = function() {
 	console.log(Octopus);
 	console.log(clients);
 	for (var i in clients) {
-		clients[i].log(chatLog);
+		console.log(clients[i]);
+		clients[i].log("bagu no gennin oshieroooo");
 	}
 };
