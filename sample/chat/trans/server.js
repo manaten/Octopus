@@ -27,16 +27,24 @@ Octopus.__inner__.set_cps(exports, 'sendMessage', o_t0, function() {
   }
   Octopus.__inner__.get_cps(Octopus, 'getClients', function(o_t4) {
   Octopus.__inner__.apply_cps(o_t4, Octopus, [], function(clients) {
+  Octopus.__inner__.get_cps(console, 'log', function(o_t5) {
+  Octopus.__inner__.apply_cps(o_t5, console, [Octopus], function() {
+  Octopus.__inner__.get_cps(console, 'log', function(o_t6) {
+  Octopus.__inner__.apply_cps(o_t6, console, [clients], function() {
   Octopus.__inner__.each_cps(clients, function(i, break_2, continue_3) {
-  Octopus.__inner__.get_cps(clients, i, function(o_t5) {
-  Octopus.__inner__.get_cps(o_t5, 'log', function(o_t6) {
-  Octopus.__inner__.apply_cps(o_t6, o_t5, [chatLog], function() {
+  Octopus.__inner__.get_cps(clients, i, function(o_t7) {
+  Octopus.__inner__.get_cps(o_t7, 'log', function(o_t8) {
+  Octopus.__inner__.apply_cps(o_t8, o_t7, [chatLog], function() {
   continue_3();
 });
 });
 });
 }, function() {
   return_1();
+});
+});
+});
+});
 });
 });
 });

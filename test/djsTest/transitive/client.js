@@ -4,4 +4,7 @@ function clientFunc(obj) {
 }
 console.log(clientObject === clientFunc(clientObject) );
 console.log( clientObject === Octopus.getServer().serverFunc(clientObject) );
-console.log( Octopus.getServer().serverValue === Octopus.getServer().serverValue );
+console.log( Octopus.getServer().serverObj === Octopus.getServer().getServerObj() );
+
+console.log(clientObject);
+console.log(Octopus.getServer().serverFunc(clientObject).value);

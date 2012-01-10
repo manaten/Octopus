@@ -7,6 +7,8 @@ exports.sendMessage = function(user, mes) {
 };
 exports.updateClients = function() {
 	var clients = Octopus.getClients();
+	console.log(Octopus);
+	console.log(clients);
 	for (var i in clients) {
 		clients[i].log(chatLog);
 	}

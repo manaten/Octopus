@@ -20,11 +20,31 @@ Octopus.__inner__.get_cps(console, 'log', function(o_t0) {
   Octopus.__inner__.get_cps(console, 'log', function(o_t7) {
   Octopus.__inner__.get_cps(Octopus, 'getServer', function(o_t9) {
   Octopus.__inner__.apply_cps(o_t9, Octopus, [], function(o_t10) {
-  Octopus.__inner__.get_cps(o_t10, 'serverValue', function(o_t8) {
-  Octopus.__inner__.get_cps(Octopus, 'getServer', function(o_t12) {
-  Octopus.__inner__.apply_cps(o_t12, Octopus, [], function(o_t13) {
-  Octopus.__inner__.get_cps(o_t13, 'serverValue', function(o_t11) {
-  Octopus.__inner__.apply_cps(o_t7, console, [o_t8 === o_t11], function() {
+  Octopus.__inner__.get_cps(o_t10, 'serverObj', function(o_t8) {
+  Octopus.__inner__.get_cps(Octopus, 'getServer', function(o_t11) {
+  Octopus.__inner__.apply_cps(o_t11, Octopus, [], function(o_t12) {
+  Octopus.__inner__.get_cps(o_t12, 'getServerObj', function(o_t13) {
+  Octopus.__inner__.apply_cps(o_t13, o_t12, [], function(o_t14) {
+  Octopus.__inner__.apply_cps(o_t7, console, [o_t8 === o_t14], function() {
+  Octopus.__inner__.get_cps(console, 'log', function(o_t15) {
+  Octopus.__inner__.apply_cps(o_t15, console, [clientObject], function() {
+  Octopus.__inner__.get_cps(console, 'log', function(o_t16) {
+  Octopus.__inner__.get_cps(Octopus, 'getServer', function(o_t18) {
+  Octopus.__inner__.apply_cps(o_t18, Octopus, [], function(o_t19) {
+  Octopus.__inner__.get_cps(o_t19, 'serverFunc', function(o_t20) {
+  Octopus.__inner__.apply_cps(o_t20, o_t19, [clientObject], function(o_t21) {
+  Octopus.__inner__.get_cps(o_t21, 'value', function(o_t17) {
+  Octopus.__inner__.apply_cps(o_t16, console, [o_t17], function() {
+});
+});
+});
+});
+});
+});
+});
+});
+});
+});
 });
 });
 });
