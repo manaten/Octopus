@@ -1,6 +1,6 @@
-
+var count = 0;
 var printClient = function() {
-	console.log("client said, Hello!");
+	console.log("client said, Hello! :" + (count++));
 };
 var printServerFromCilent = function(printServerFunc) {
 	printServerFunc();

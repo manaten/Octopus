@@ -24,9 +24,10 @@ if FileTest.file?($octopus_file) then
 else
   $node_command += File.expand_path($octopus_file) + "/trans/server.js"
 end
-
+$command = 'export NODE_PATH='+$octopus_base+'/node_modules;' + $node_command
 
 puts ""
 puts "Running node.js..."
-exec($node_command)
+system($command)
+puts ""
 puts "bye."

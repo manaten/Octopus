@@ -1,3 +1,4 @@
+var count = 0;
 var printClient = function(return_0) {
   if (return_0 === undefined || !(return_0.constructor === Function)) 
   {
@@ -5,7 +6,7 @@ var printClient = function(return_0) {
 };
   }
   Octopus.__inner__.get_cps(console, 'log', function(o_t0) {
-  Octopus.__inner__.apply_cps(o_t0, console, ["client said, Hello!"], function() {
+  Octopus.__inner__.apply_cps(o_t0, console, ["client said, Hello! :" + (count++)], function() {
   return_0();
 });
 });
