@@ -124,7 +124,7 @@ public class NormalizeTranslation extends DefaultTranslation
 			StringBuilder sb = new StringBuilder();
 			sb.append("for(;;) {");
 			sb.append( translate(node.getBody(), info) );
-			if (node.getCondition().getType() != Token.TRUE)
+			if (node.getCondition() != null && node.getCondition().getType() != Token.TRUE)
 			{
 				sb.append(" if (!(");
 				sb.append( translate(node.getCondition(), info) );
@@ -150,13 +150,17 @@ public class NormalizeTranslation extends DefaultTranslation
 		protected String translate(ForLoop node, TranslationInfomation info)
 		{
 			StringBuilder sb = new StringBuilder();
-			sb.append( translate(node.getInitializer(), info) );
+			if (node.getInitializer() != null)
+				sb.append( translate(node.getInitializer(), info) );
 			sb.append("for (;;");
 			sb.append( translate(node.getIncrement(), info) );
 			sb.append(") {");
-			sb.append(" if (!(");
-			sb.append( translate(node.getCondition(), info) );
-			sb.append(")) { break; } else {}");
+			if (node.getCondition() != null && node.getCondition().getType() != Token.TRUE)
+			{
+				sb.append(" if (!(");
+				sb.append( translate(node.getCondition(), info) );
+				sb.append(")) { break; } else {}");
+			}
 			sb.append( translate(node.getBody(), info) );
 			sb.append( translate(node.getIncrement(), info) );
 			sb.append(";}");
@@ -167,7 +171,7 @@ public class NormalizeTranslation extends DefaultTranslation
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.append("for(;;) {");
-			if (node.getCondition().getType() != Token.TRUE)
+			if (node.getCondition() != null && node.getCondition().getType() != Token.TRUE)
 			{
 				sb.append(" if (!(");
 				sb.append( translate(node.getCondition(), info) );
