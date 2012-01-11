@@ -5,6 +5,22 @@
 \usepackage{ascmac}
 %\usepackage{here}
 \usepackage{txfonts}
+\usepackage{verbatim}
+\usepackage{listings,jlisting}
+\renewcommand{\lstlistingname}{コード}
+\lstset{
+  basicstyle=\ttfamily\small,
+  commentstyle=\textit,
+  classoffset=1,
+  keywordstyle=\bfseries,
+  frame=tRBl,
+  framesep=5pt,
+  showstringspaces=false,
+  numbers=left,
+  stepnumber=1,
+  numberstyle=\small,
+  tabsize=2
+}
 
 \newcommand\bibAnnoteFile[1]{}
 \newcommand\bibAnnote[1]{\\ {\textbf 関連論文: }#1}
@@ -56,13 +72,13 @@ Webの特性を活かすことで従来のデスクトップアプリケーシ�
 JavaScriptのプログラムと、サーバーで動作する他のプログラムがアプリケーションの実行に伴い動的に通信を行いながら動作する。
 そのため、その開発もクライアント用にJavaScriptでプログラムを記述し、サーバー用にまた別の言語でプログラムを記述する必要がある。
 さらにそれらを協調動作させるために、通信を意識したコーディングをする必要もある。このコーディングは本来作りたいアプリケーションの
-ロジックとは異なる。Webアプリケーション開発には、このように面倒である点が存在し、効率的な開発の妨げとなる。
+ロジックとは異なる。Webアプリケーション開発には、このように面倒である点が存在し、プログラマの効率的な開発の妨げとなる。
 そこで、これからのWebアプリケーション事情が更に発展していうく上でより効率的な開発をするための開発言語が必要であると考え、
-本研究では分散JavaScript言語\
+本研究では分散JavaScript言語{\em OctopuScript}を提案する。
 
 \section{貢献}
 
-\section{論文の概要}
+\section{論文の構成}
  本論文では以下の内容を述べる.
  n章では・・・
 
@@ -96,6 +112,27 @@ JavaScriptのプログラムと、サーバーで動作する他のプログラ�
 この章では
 \section{設計思想}
 \section{概観}
+
+OctopuScriptは、処理系Octopusの上で動作するJavaScriptのサブセットであり、Webアプリケーションを記述するために用いる。
+プログラマはOctpuScriptを用いて、従来のようにサーバー用のプログラムと、ブラウザ用のコードを記述する。従来と大きく違うのは、
+それぞれのコードから他方のコードを自然に参照することができることである。例えば、以下のようなコーディングが可能になる。
+
+\begin{lstlisting}[caption=サーバー用のOctopuScriptコード,label=ラベル]
+var logging = function(logstr) {
+	console.log(logstr);
+};
+\end{lstlisting}
+
+\begin{lstlisting}[caption=ブラウザ用のOctopuScriptコード,label=ラベル]
+server.logging("Hello from client!");
+\end{lstlisting}
+
+サーバー用のコードはサーバー起動時に、ブラウザ用のコードは各ブラウザがサーバーにアクセスした時に実行される。
+このアプリケーションを動作させると、ブラウザがサーバーにアクセスするたびに、サーバーのログに''Hello, client!''という
+文字列が表示される。ここで、ブラウザ用コード中のserver変数はサーバー側の(logging関数が定義されている)トップレベルを
+指しているとする。
+この例では、ブラウザからサーバーに定義された関数に、ブラウザで生成された文字列を引数として渡して実行しているが、
+
 \subsection{プログラム例}
 \section{仕様}
 \subsection{言語を構成する要素}

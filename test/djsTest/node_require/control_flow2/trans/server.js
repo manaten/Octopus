@@ -1,0 +1,1 @@
+var Octopus = require('octopus'), exports = {};Octopus.__inner__.init(exports, {"basePath":"/Users/mkato6/Dropbox/workspace/Octopus/test/djsTest/control_flow2","clientCode":"client.js","outputDir":"/Users/mkato6/Dropbox/workspace/Octopus/test/djsTest/control_flow2/trans","port":8080,"serverCode":"server.js","startHtml":"index.html","staticFiles":["index.html"]});

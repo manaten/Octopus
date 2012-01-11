@@ -1,7 +1,7 @@
 \contentsline {chapter}{\numberline {第1章}はじめに}{2}
 \contentsline {section}{\numberline {1.1}背景}{2}
 \contentsline {section}{\numberline {1.2}貢献}{3}
-\contentsline {section}{\numberline {1.3}論文の概要}{3}
+\contentsline {section}{\numberline {1.3}論文の構成}{3}
 \contentsline {chapter}{\numberline {第2章}Webアプリケーションとその開発}{4}
 \contentsline {section}{\numberline {2.1}Webアプリケーションとは}{4}
 \contentsline {subsection}{\numberline {2.1.1}最も単純なWebアプリケーション}{4}
@@ -14,24 +14,24 @@
 \contentsline {chapter}{\numberline {第3章}分散JavaScript言語 OctopuScript}{6}
 \contentsline {section}{\numberline {3.1}設計思想}{6}
 \contentsline {section}{\numberline {3.2}概観}{6}
-\contentsline {subsection}{\numberline {3.2.1}プログラム例}{6}
-\contentsline {section}{\numberline {3.3}仕様}{6}
-\contentsline {subsection}{\numberline {3.3.1}言語を構成する要素}{6}
-\contentsline {subsection}{\numberline {3.3.2}式}{6}
-\contentsline {subsection}{\numberline {3.3.3}構文}{6}
-\contentsline {section}{\numberline {3.4}ライブラリ関数}{6}
-\contentsline {chapter}{\numberline {第4章}分散JavaScript言語処理系 Octopus}{7}
-\contentsline {section}{\numberline {4.1}構成}{7}
-\contentsline {section}{\numberline {4.2}コード変換}{7}
-\contentsline {subsection}{\numberline {4.2.1}Rhino Astノード}{7}
-\contentsline {subsection}{\numberline {4.2.2}標準形分散JavaScript}{7}
-\contentsline {subsection}{\numberline {4.2.3}Continuation Passing Style}{7}
-\contentsline {section}{\numberline {4.3}補助ライブラリ}{7}
-\contentsline {subsection}{\numberline {4.3.1}リモートオブジェクト・関数}{7}
-\contentsline {subsection}{\numberline {4.3.2}制御構文関数}{7}
-\contentsline {section}{\numberline {4.4}最適化}{7}
-\contentsline {chapter}{\numberline {第5章}評価}{8}
-\contentsline {section}{\numberline {5.1}主観評価}{8}
-\contentsline {section}{\numberline {5.2}実行速度評価}{8}
-\contentsline {chapter}{\numberline {第6章}関連研究}{9}
-\contentsline {chapter}{\numberline {第7章}今後の課題}{10}
+\contentsline {subsection}{\numberline {3.2.1}プログラム例}{7}
+\contentsline {section}{\numberline {3.3}仕様}{7}
+\contentsline {subsection}{\numberline {3.3.1}言語を構成する要素}{7}
+\contentsline {subsection}{\numberline {3.3.2}式}{7}
+\contentsline {subsection}{\numberline {3.3.3}構文}{7}
+\contentsline {section}{\numberline {3.4}ライブラリ関数}{7}
+\contentsline {chapter}{\numberline {第4章}分散JavaScript言語処理系 Octopus}{8}
+\contentsline {section}{\numberline {4.1}構成}{8}
+\contentsline {section}{\numberline {4.2}コード変換}{8}
+\contentsline {subsection}{\numberline {4.2.1}Rhino Astノード}{8}
+\contentsline {subsection}{\numberline {4.2.2}標準形分散JavaScript}{8}
+\contentsline {subsection}{\numberline {4.2.3}Continuation Passing Style}{8}
+\contentsline {section}{\numberline {4.3}補助ライブラリ}{8}
+\contentsline {subsection}{\numberline {4.3.1}リモートオブジェクト・関数}{8}
+\contentsline {subsection}{\numberline {4.3.2}制御構文関数}{8}
+\contentsline {section}{\numberline {4.4}最適化}{8}
+\contentsline {chapter}{\numberline {第5章}評価}{9}
+\contentsline {section}{\numberline {5.1}主観評価}{9}
+\contentsline {section}{\numberline {5.2}実行速度評価}{9}
+\contentsline {chapter}{\numberline {第6章}関連研究}{10}
+\contentsline {chapter}{\numberline {第7章}今後の課題}{11}
