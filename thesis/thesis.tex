@@ -1,0 +1,111 @@
+\documentclass[a4j,12pt]{jreport}
+\usepackage[dvips]{graphicx}
+\usepackage{vmargin, fancyheadings, amsmath ,float, alltt}
+%\usepackage{misc}
+\usepackage{ascmac}
+%\usepackage{here}
+\usepackage{txfonts}
+
+\newcommand\bibAnnoteFile[1]{}
+\newcommand\bibAnnote[1]{\\ {\textbf 関連論文: }#1}
+
+%\setlength{\textwidth}{150mm}       % テキストの幅
+%\setlength{\textheight}{212mm}      % テキストの高さ
+%\setlength{\oddsidemargin}{5mm}     % 偶数ページの左マージン
+%\setlength{\evensidemargin}{5mm}    % 奇数ページの左マージン
+%\setlength{\topmargin}{25.4mm}         % 上のマージン
+%\renewcommand{\baselinestretch}{1.1}
+
+
+\title {Webアプリケーション開発のための分散JavaScript言語}
+\author{東京工業大学 \\情報理工学研究科 \\数理・計算科学専攻 \\学籍番号 09M37117\\加藤 真人\\\\指導教員\\脇田 建 准教授}
+%\date {2012.2.xx (xxx)}
+
+\begin {document}
+
+\pagestyle {fancy}
+\pagenumbering {roman}
+\maketitle
+\tableofcontents
+\listoffigures
+%\listoftables
+
+\pagestyle {fancy}
+\pagenumbering{arabic}
+
+%------------------------------------------------------------------------------
+\chapter{はじめに}
+\section{背景}
+\section{貢献}
+
+\section{論文の概要}
+ 本論文では以下の内容を述べる.
+ n章では・・・
+
+%------------------------------------------------------------------------------
+\chapter{Webアプリケーション開発}
+この章では
+\section{Webアプリケーションとは}
+この節ではまず、Webアプリケーションとはどういうものか、実在する例を用いて解説する。
+
+\subsection{最も単純なWebアプリケーション}
+最も基本的なWebアプリケーションの開発形態は、サーバーサイドプログラムを用い、ユーザーの入力に応じて動的にWebページを書き換えるものである。
+
+\subsection{動的に通信を行うWebアプリケーション}
+ブラウザ上でJavaScriptがユーザー入力に応じて動的にサーバーサイドのプログラムと通信、ページ書き換えを行うことでよりインタラクティブなWebアプリケーションを作成することができる。
+
+
+\section{開発支援}
+\subsection{フレームワークを用いたWebアプリケーション}
+前節の形態のWebアプリケーションが現在最も主流であるが、見てきたようにその開発は少々手間である。これらの手間を解決するために、大規模な開発ではフレームワークを用いるのが主である。ここではその内の幾つかを紹介する。
+
+\subsection{サーバーサイドJavaScript node.js}
+\subsection{WebSocket}
+\subsection{多言語からJavaScriptへの変換}
+
+
+%------------------------------------------------------------------------------
+\chapter{分散JavaScript}
+この章では
+\section{設計思想}
+\section{概観}
+\subsection{プログラム例}
+\section{仕様}
+\subsection{言語を構成する要素}
+\subsection{式}
+\subsection{構文}
+\section{ライブラリ関数}
+
+%------------------------------------------------------------------------------ 
+\chapter{分散JavaScriptの実装}
+この章では分散JavaScriptをどのように既存のブラウザ・サーバー上に実現するかについて論じる。
+\section{構成}
+\section{コード変換}
+\subsection{Rhino Astノード}
+\subsection{標準形分散JavaScript}
+\subsection{Continuation Passing Style}
+\section{補助ライブラリ}
+\subsection{リモートオブジェクト・関数}
+\subsection{制御構文関数}
+\section{最適化}
+ 
+%------------------------------------------------------------------------------
+\chapter{評価}
+この章では
+\section{主観評価}
+\section{実行速度評価}
+ 
+ 
+%------------------------------------------------------------------------------
+\chapter{関連研究}
+
+
+%------------------------------------------------------------------------------
+\chapter{今後の課題}
+この章では
+
+
+\bibliographystyle {jalpha}
+\bibliography {paper}
+
+\end {document}
