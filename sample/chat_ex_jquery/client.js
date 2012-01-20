@@ -10,7 +10,7 @@ function onSend() {
 	Octopus.getServer().sendMessage($("#userName").val(), $("#message").val());
 	$("#message").val("");
 }
-$(window).load(function() {
+$(function() {
 	$("#chatButton").click(onSend);
 	$("#message").keypress( function(e){ if (e.keyCode == 13) onSend();});
 	Octopus.getServer().updateClients();
