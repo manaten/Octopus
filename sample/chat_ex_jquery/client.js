@@ -1,10 +1,10 @@
-var clientLog = "";
 var lastIndex = 0;
 function log(logArray)
 {
+	var l = $("#log").html();
 	for (; lastIndex < logArray.length; lastIndex++)
-		clientLog += logArray[lastIndex];
-	$("#log").html(clientLog);
+		l += logArray[lastIndex];
+	$("#log").html(l);
 }
 function onSend() {
 	Octopus.getServer().sendMessage($("#userName").val(), $("#message").val());
