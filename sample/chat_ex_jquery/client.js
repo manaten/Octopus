@@ -1,9 +1,8 @@
 var lastIndex = 0;
-function log(logArray)
-{
+function log(logArray) {
 	var l = $("#log").html();
-	for (; lastIndex < logArray.length; lastIndex++)
-		l += logArray[lastIndex];
+	while (lastIndex < logArray.length)
+		l += logArray[lastIndex++];
 	$("#log").html(l);
 }
 function onSend() {
