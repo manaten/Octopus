@@ -284,6 +284,23 @@ public class NormalizeTranslation extends DefaultTranslation
 			return v;
 		}
 
+		/**
+		 * new F(a,...) -> var v = new trans(F)(trans(a...)); v
+		 */
+		protected String translate(NewExpression node, TranslationInfomation info)
+		{
+			StringBuilder sb = new StringBuilder();
+	        sb.append("new ");
+			sb.append( translate(node.getTarget(), info) );
+			sb.append("(");
+			sb.append( translateList(node.getArguments(), info) );
+			sb.append(")");
+			if (node.getParent() instanceof VariableInitializer || node.getParent() instanceof ExpressionStatement)
+				return sb.toString();
+			String v = createFreeName();
+			info.addNodeQueue("var "+v+" = " + sb.toString());
+			return v;
+		}
 
 		/**
 		 * F(a,...) -> var v = trans(F)(trans(a...)); v
@@ -294,6 +311,7 @@ public class NormalizeTranslation extends DefaultTranslation
 			if (node.getTarget() instanceof ElementGet)
 			{
 				ElementGet eg = (ElementGet) node.getTarget();
+				//もともとapplyの場合
 				if (eg.getElement() instanceof StringLiteral && ((StringLiteral)eg.getElement()).getValue().equals("apply"))
 				{
 					sb.append( translate(eg.getTarget(), info) );

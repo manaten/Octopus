@@ -142,6 +142,33 @@ public class DJS2JSTranslation extends DefaultTranslation
 			return false;
 		}
 
+		private boolean isNew(AstNode node)
+		{
+			if (node instanceof ExpressionStatement)
+			{
+				ExpressionStatement es = (ExpressionStatement) node;
+				if (es.getExpression() instanceof NewExpression)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
+		private boolean isNewGet(AstNode node)
+		{
+			if (node instanceof VariableDeclaration)
+			{
+				VariableDeclaration vd = (VariableDeclaration) node;
+				VariableInitializer vi = vd.getVariables().get(0);
+				if (vi.getInitializer() instanceof NewExpression)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
 		private boolean isFunctionCall(AstNode node)
 		{
 			if (node instanceof ExpressionStatement)
@@ -195,6 +222,43 @@ public class DJS2JSTranslation extends DefaultTranslation
 			sb.append( translate(fn.getBody(), info_) );
 			sb.append("};\n");
 			sb.append(funcName + ".isUserDefined = true;");
+
+			return sb.toString();
+		}
+
+		private String translateNew(AstNode node, List<AstNode> k, TranslationInfomation info)
+		{
+			StringBuilder sb = new StringBuilder();
+			ExpressionStatement es = (ExpressionStatement) node;
+			FunctionCall fc = (FunctionCall) es.getExpression();
+
+			sb.append("Octopus.__inner__.new_cps(");
+			sb.append( translate(fc.getTarget(), info) );
+			sb.append(", ");
+			sb.append( translateList(fc.getArguments(), info) );
+			sb.append(", function () {\n");
+			sb.append( translateStatements(k, info) );
+			sb.append("});\n");
+
+			return sb.toString();
+		}
+
+		private String translateNewGet(AstNode node, List<AstNode> k, TranslationInfomation info)
+		{
+			StringBuilder sb = new StringBuilder();
+			VariableDeclaration vd = (VariableDeclaration) node;
+			VariableInitializer vi = vd.getVariables().get(0);
+			FunctionCall fc = (FunctionCall) vi.getInitializer();
+
+			sb.append("Octopus.__inner__.new_cps(");
+			sb.append( translate(fc.getTarget(), info) );
+			sb.append(", ");
+			sb.append( translateList(fc.getArguments(), info) );
+			sb.append(", function (");
+			sb.append( translate(vi.getTarget(), info) );
+			sb.append(") {\n");
+			sb.append( translateStatements(k, info) );
+			sb.append("});\n");
 
 			return sb.toString();
 		}
@@ -360,6 +424,18 @@ public class DJS2JSTranslation extends DefaultTranslation
 				if (isFunctionDecl(statement))
 				{
 					sb.append(translateFunctionDecl(statement, _statements, info));
+				}
+
+				else if (isNew(statement))
+				{
+					sb.append(translateNew(statement, _statements, info));
+					return sb.toString();
+				}
+
+				else if (isNewGet(statement))
+				{
+					sb.append(translateNewGet(statement, _statements, info));
+					return sb.toString();
 				}
 
 				else if (isFunctionCall(statement))
