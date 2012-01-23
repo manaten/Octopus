@@ -219,6 +219,7 @@ public class DJS2JSTranslation extends DefaultTranslation
 				sb.append(transArgs + ", " + return_k);
 			sb.append(") {");
 			sb.append("if ("+return_k+" === undefined || !("+return_k+".constructor === Function)) {"+return_k+" = function(){};}");
+			sb.append("var oct_this = this;");
 			sb.append( translate(fn.getBody(), info_) );
 			sb.append("};\n");
 			sb.append(funcName + ".isUserDefined = true;");
@@ -234,9 +235,9 @@ public class DJS2JSTranslation extends DefaultTranslation
 
 			sb.append("Octopus.__inner__.new_cps(");
 			sb.append( translate(fc.getTarget(), info) );
-			sb.append(", ");
-			sb.append( translateList(fc.getArguments(), info) );
-			sb.append(", function () {\n");
+			sb.append(", [");
+			sb.append(translateList(fc.getArguments(), info));
+			sb.append("], function () {\n");
 			sb.append( translateStatements(k, info) );
 			sb.append("});\n");
 
@@ -252,9 +253,9 @@ public class DJS2JSTranslation extends DefaultTranslation
 
 			sb.append("Octopus.__inner__.new_cps(");
 			sb.append( translate(fc.getTarget(), info) );
-			sb.append(", ");
-			sb.append( translateList(fc.getArguments(), info) );
-			sb.append(", function (");
+			sb.append(", [");
+			sb.append(translateList(fc.getArguments(), info));
+			sb.append("], function (");
 			sb.append( translate(vi.getTarget(), info) );
 			sb.append(") {\n");
 			sb.append( translateStatements(k, info) );
@@ -504,6 +505,8 @@ public class DJS2JSTranslation extends DefaultTranslation
 					sb.append(((NDJS2CPSJSInfo)info).getReturnPoint() + "(");
 					if (rs.getReturnValue() != null)
 						sb.append(translate(rs.getReturnValue(), info));
+					else
+						sb.append("oct_this");
 					sb.append(");");
 					return sb.toString();
 				}
@@ -535,6 +538,18 @@ public class DJS2JSTranslation extends DefaultTranslation
 				kids.add( (AstNode) kid );
 			sb.append( translateStatements(kids, info));
 			return sb.toString();
+		}
+
+		/**
+		 * this -> oct_this
+		 */
+		protected String translate(KeywordLiteral node, TranslationInfomation info)
+		{
+			if (node.getType() == 43)
+			{
+				return "oct_this";
+			}
+			return node.toSource();
 		}
 
 	}

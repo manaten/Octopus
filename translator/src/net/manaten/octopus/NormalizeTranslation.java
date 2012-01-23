@@ -56,24 +56,6 @@ public class NormalizeTranslation extends DefaultTranslation
 			throw new TranslationException(node);
 		}
 
-
-		protected String translate(NewExpression node, TranslationInfomation info)
-		{
-			throw new TranslationException(node);
-			//			StringBuilder sb = new StringBuilder();
-			//			sb.append("new ");
-			//			sb.append( translate(node.getTarget(), info) );
-			//			sb.append("(");
-			//			sb.append( translateList(node.getArguments(), info) );
-			//			sb.append(")");
-			//			if(node.getInitializer() != null)
-			//			{
-			//				sb.append(" ");
-			//				sb.append( translate(node.getInitializer(), info) );
-			//			}
-			//			return sb.toString();
-		}
-
 		/**
 		 * var a = x, b = y, c = z; -> var a = x; var b = y; var c = z;
 		 */
@@ -124,7 +106,7 @@ public class NormalizeTranslation extends DefaultTranslation
 			StringBuilder sb = new StringBuilder();
 			sb.append("for(;;) {");
 			sb.append( translate(node.getBody(), info) );
-			if (node.getCondition() != null && node.getCondition().getType() != Token.TRUE)
+			if (node.getCondition() != null && node.getCondition().getType() != 45)
 			{
 				sb.append(" if (!(");
 				sb.append( translate(node.getCondition(), info) );
@@ -155,7 +137,7 @@ public class NormalizeTranslation extends DefaultTranslation
 			sb.append("for (;;");
 			sb.append( translate(node.getIncrement(), info) );
 			sb.append(") {");
-			if (node.getCondition() != null && node.getCondition().getType() != Token.TRUE)
+			if (node.getCondition() != null && node.getCondition().getType() != 45)
 			{
 				sb.append(" if (!(");
 				sb.append( translate(node.getCondition(), info) );
@@ -171,7 +153,7 @@ public class NormalizeTranslation extends DefaultTranslation
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.append("for(;;) {");
-			if (node.getCondition() != null && node.getCondition().getType() != Token.TRUE)
+			if (node.getCondition() != null && node.getCondition().getType() != 45)
 			{
 				sb.append(" if (!(");
 				sb.append( translate(node.getCondition(), info) );
