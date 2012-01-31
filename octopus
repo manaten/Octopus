@@ -13,12 +13,12 @@ end
 $octopus_base = File.expand_path(File.dirname($0))
 
 
-$cp_command = "cp -r "
-$cp_command += $octopus_file + " "
-$cp_command += $octopus_base + "/.log/"
-$cp_command += File.basename($octopus_file) + '_'
-$cp_command += Time.now.strftime("%Y%m%d%H%M%S")
-system($cp_command)
+#$cp_command = "cp -r "
+#$cp_command += $octopus_file + " "
+#$cp_command += $octopus_base + "/.log/"
+#$cp_command += File.basename($octopus_file) + '_'
+#$cp_command += Time.now.strftime("%Y%m%d%H%M%S")
+#system($cp_command)
 
 
 $java_command = "java -jar "
@@ -35,7 +35,7 @@ puts ""
 
 $node_command = 'export NODE_PATH='
 $node_command += $octopus_base
-$node_command += '/node_modules;node '
+$node_command += '/node_modules;node --max-stack-size=700000000 '
 $node_command += $octopus_file + "/trans/server.js"
 puts "Running node.js...  (exit to cmd+C)"
 system($node_command)

@@ -1,0 +1,12 @@
+#!/usr/bin/ruby
+puts ARGV[0]
+length = 0
+sum = 0
+open(ARGV[0]) {|file|
+  while line = file.gets
+    sum += line.to_i
+    length+=1
+  end
+}
+puts sum / length
+
