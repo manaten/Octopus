@@ -12,7 +12,7 @@ else
 end
 $octopus_base = File.expand_path(File.dirname($0))
 
-
+# for logging
 #$cp_command = "cp -r "
 #$cp_command += $octopus_file + " "
 #$cp_command += $octopus_base + "/.log/"
