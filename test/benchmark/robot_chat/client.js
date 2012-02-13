@@ -6,8 +6,9 @@ function addLog(logstr) {
 	//$("#log").html(l + logstr);
 }
 var start = Date.now();
+var sendMessage = Octopus.getServer().sendMessage;
 for (var i = 0; i < 1000; i++)
-	Octopus.getServer().sendMessage( "robo", "hi" + i);
+	sendMessage( "robo", "hi" + i);
 var time = Date.now() - start;
 console.log("require " + time + "ms.");
 $("#log").html(Octopus.getServer().getAllLog());

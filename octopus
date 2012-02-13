@@ -1,46 +1,54 @@
 #!/usr/bin/ruby
 
-$octopus_file = ARGV[0]
-if $octopus_file == nil then
+octopus_file = ARGV[0]
+if octopus_file == nil then
   puts 'usage: octopus <same.octopus>'
   exit
 end
-if FileTest.file?($octopus_file) then
-  $octopus_file = File.expand_path(File.dirname($octopus_file))
+if FileTest.file?(octopus_file) then
+  octopus_file = File.expand_path(File.dirname(octopus_file))
 else
-  $octopus_file = File.expand_path($octopus_file)
+  octopus_file = File.expand_path(octopus_file)
 end
-$octopus_base = File.expand_path(File.dirname($0))
+octopus_base = File.expand_path(File.dirname($0))
 
 # for logging
-#$cp_command = "cp -r "
-#$cp_command += $octopus_file + " "
-#$cp_command += $octopus_base + "/.log/"
-#$cp_command += File.basename($octopus_file) + '_'
-#$cp_command += Time.now.strftime("%Y%m%d%H%M%S")
-#system($cp_command)
+#cp_command = "cp -r "
+#cp_command += octopus_file + " "
+#cp_command += octopus_base + "/.log/"
+#cp_command += File.basename(octopus_file) + '_'
+#cp_command += Time.now.strftime("%Y%m%d%H%M%S")
+#system(cp_command)
 
+CYGWIN = open("| uname").gets.match(/CYGWIN*/) != nil
+def cygpath(path)
+  if CYGWIN then
+    '`cygpath -d "'+path+'"`'
+  else
+    path
+  end
+end
 
-$java_command = "java -jar "
-$java_command += $octopus_base + "/translator/translator.jar "
-$java_command += " " + $octopus_file
+java_command = "java -jar "
+java_command += cygpath(octopus_base + "/translator/translator.jar")
+java_command += " " + cygpath(octopus_file)
 puts "Translating code..."
-$result = system($java_command)
-if !$result then
+result = system(java_command)
+if !result then
   exit
 end
 puts "done."
 puts ""
 
 
-$node_command = 'export NODE_PATH='
-$node_command += $octopus_base
-$node_command += '/node_modules;node --max-stack-size=700000000 '
-$node_command += $octopus_file + "/trans/server.js"
+node_command = 'export NODE_PATH="'
+node_command += octopus_base+"/node_modules"
+node_command += '";node "'
+node_command += octopus_file + '/trans/server.js"'
 puts "Running node.js...  (exit to cmd+C)"
-system($node_command)
+system(node_command)
 puts ""
 
-$rm_command = "rm -r " + $octopus_file + "/trans"
-system($rm_command)
+rm_command = "rm -r " + cygpath(octopus_file + "/trans")
+system(rm_command)
 puts "bye."
