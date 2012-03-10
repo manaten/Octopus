@@ -1,41 +1,38 @@
-//ログを保持する配列
+//an array has logs.
 var chatLog = [];
-//サーバーにメッセージを送り,ログに保存
+//a function sending broadcast message.
 exports.sendMessage = function(user, message) {
 	var logstr = user + ":" + message + "<br>";
-	//ログ配列に新しいログをpush
+
 	chatLog.push( logstr );
-	//ログ更新時に,クライアントのログ表示も更新する.
-	exports.updateClients(logstr);
+	console.log(user + " send message: " + message);
+
+	//update all clients with sent message.
+	var clients = Octopus.getClients();
+	for (var i in clients) {
+		clients[i].addLog(logstr);
+	}
 };
-//現在参加してるユーザー(のaddLog関数)のリスト
+
+//a list of users.
 var userList= {};
-//新しいユーザーを追加
+//add user to list.
 exports.regist = function(user, addLogFunc) {
 	userList[user] = addLogFunc;
 };
-//ユーザーを指定してひそひそ話
-//送り手と受け手,それぞれのログに適切な文字列を表示する
+//a function sending one to another message.
 exports.sendMessageTo = function(user, message, talkTo) {
 	if (userList[user] && userList[talkTo]) {
 		userList[user]("(to " + talkTo + ") " + message + "<br>");
 		userList[talkTo]("(from " + user + ") " + message + "<br>");
+		console.log(user + " send message to" + talkTo + ": " + message);
 	}
 };
-//現在保持されてるすべてのログを取得
+//getting all log saving on server.
 exports.getAllLog = function() {
 	var log = "";
 	for (var i = 0; i < chatLog.length; i++) {
 		log += chatLog[i];
 	}
 	return log;
-};
-//すべてのクライアントのログを更新
-exports.updateClients = function(logstr) {
-	//すべての接続中のクライアントのグローバルオブジェクトを保持する配列
-	var clients = Octopus.getClients();
-	for (var i in clients) {
-		//すべてのクライアントに対して,updateLog(chatLog)を実行
-		clients[i].addLog(logstr);
-	}
 };
