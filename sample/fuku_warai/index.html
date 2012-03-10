@@ -1,19 +1,19 @@
 <html>
 <head>
-<title>Ocopus Chat</title>
+<title>Ocopus ふくわらい</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script src="/jquery.min.js"></script>
+<script src="/jquery-ui.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/octopus/octopus.js"></script>
 </head>
 <body>
-	<h2>Octopus Chat</h2>
+	<h2>Octopus ふくわらい</h2>
 	<div style="font-size:75%;"><a href="/server.js" target="_blank">サーバーのコード</a>&nbsp;<a href="/client.js" target="_blank">クライアントのコード</a></div>
-	<div>
-		userName:<input type="text" id="userName" size="5" />&nbsp;
-		To:<input type="text" id="talkTo" size="5" />&nbsp;
-		message:<input type="text" id="message" size="30" />
-		<input type="button" id="chatButton" value="send" />
+	<div style="background:url('/face.png') no-repeat; height:360px; width:690px">
+		<img id="eye1" style="display:none" src="eye.png" width=100px height=100px />
+		<img id="eye2" style="display:none" src="eye.png" width=100px height=100px />
+		<img id="mouth" style="display:none" src="mouth.png" width=100px height=100px />
 	</div>
 	<div id="log"></div>
 </body>

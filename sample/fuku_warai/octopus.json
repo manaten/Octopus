@@ -1,0 +1,7 @@
+{
+"serverCode": "server.js",
+"clientCode": "client.js",
+"staticFiles": ["index.html", "jquery.min.js", "server.js", "client.js", "jquery-ui.js", "face.png", "eye.png", "mouth.png"],
+"startHtml" : "index.html",
+"port"      : 8081
+}

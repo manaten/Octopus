@@ -1,7 +1,7 @@
 {
 "serverCode": "server.js",
 "clientCode": "client.js",
-"staticFiles": ["index.html"],
+"staticFiles": ["index.html", "jquery.min.js", "server.js", "client.js"],
 "startHtml" : "index.html",
 "port"      : 8080
 }

@@ -1,29 +1,26 @@
-//配列からまだ表示してないログを取得し表示
+//add string to log DOM object.
 function addLog(logstr) {
-	//logのDOM内のHTMLを取得
 	var l = $("#log").html();
-	//DOMのHTMLを更新
 	$("#log").html(l + logstr);
 }
-//Sendボタンが押された時の処理
+//a function when push the send button.
 function onSend() {
-	//まず,自分のユーザー名で認証.
+	//register with user name.
 	Octopus.getServer().regist( $("#userName").val(), addLog );
-	//talkToの有無によって全体発言モードとひそひそ話モードを切り替え
+	//whether talkTo field is empty or not, changing send function.
 	var talkTo = $("#talkTo").val();
 	if (talkTo === "") {
 		Octopus.getServer().sendMessage( $("#userName").val(), $("#message").val() );
 	} else {
 		Octopus.getServer().sendMessageTo( $("#userName").val(), $("#message").val(), talkTo );
 	}
-	//入力欄をクリア
 	$("#message").val("");
 }
-//ロード時の処理
+//on load function.
 $(function() {
-	//ボタンにハンドラを登録
+	//register event handler.
 	$("#chatButton").click(onSend);
 	$("#message").keypress( function(e){ if (e.keyCode == 13) onSend();});
-	//クライアントのログの更新
+	//update log.
 	addLog(Octopus.getServer().getAllLog());
 });
