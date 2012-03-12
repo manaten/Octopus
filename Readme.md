@@ -1,5 +1,6 @@
 # Octopus
 ![Octopus](./octopus.png)
+
 Octopus is distributed JavaScript language which makes easier web application developing.
 With Octopus, you can write program in JavaScript for both browser and server
 and in these program, JavaScript objects are able to refer in one from another.
