@@ -1,5 +1,5 @@
 # Octopus
-![Octopus](./octopus.png)
+![Octopus](https://github.com/manaten/Octopus/raw/master/octopus.png)
 
 Octopus is distributed JavaScript language which makes easier web application developing.
 With Octopus, you can write program in JavaScript for both browser and server
