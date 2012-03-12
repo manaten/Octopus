@@ -1,6 +1,8 @@
 # Octopus
-
-Octopus is distributed JavaScript language which make easier web application developing. With Octopus, we can write code for both browser and server in JavaScript and reffer object one from onother.
+![Octopus](/octopus.png)
+Octopus is distributed JavaScript language which makes easier web application developing.
+With Octopus, you can write program in JavaScript for both browser and server
+and in these program, JavaScript objects are able to refer in one from another.
 
 ## How to Install
 
